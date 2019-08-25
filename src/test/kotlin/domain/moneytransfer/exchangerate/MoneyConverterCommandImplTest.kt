@@ -2,7 +2,7 @@ package domain.moneytransfer.exchangerate
 
 import domain.exchangerate.ExchangeRate
 import domain.exchangerate.ExchangeRateNotFoundException
-import domain.exchangerate.ExchangeRateRepository
+import domain.exchangerate.query.ExchangeRateQuery
 import domain.exchangerate.Rate
 import domain.exchangerate.command.MoneyConverterCommandImpl
 import domain.moneytransfer.Money
@@ -18,14 +18,14 @@ import java.time.LocalDateTime
 class MoneyConverterCommandImplTest {
 
     private lateinit var moneyConverterCommandImpl : MoneyConverterCommandImpl
-    private lateinit var exchangeRateRepository: ExchangeRateRepository
+    private lateinit var exchangeRateQuery: ExchangeRateQuery
     private val clpCurrency = "CLP"
     private val usdCurrency = "USD"
 
     @Before
     fun setUp() {
-        exchangeRateRepository = mockk()
-        moneyConverterCommandImpl = MoneyConverterCommandImpl(exchangeRateRepository)
+        exchangeRateQuery = mockk()
+        moneyConverterCommandImpl = MoneyConverterCommandImpl(exchangeRateQuery)
     }
 
     @Test
@@ -37,7 +37,7 @@ class MoneyConverterCommandImplTest {
             Rate(clpCurrency, BigDecimal.valueOf(0.0014)),
             LocalDateTime.now()
         )
-        every { exchangeRateRepository.findByBaseAndDestinationCurrency(usdCurrency, clpCurrency) } returns exchangeRate
+        every { exchangeRateQuery.findByBaseAndDestinationCurrency(usdCurrency, clpCurrency) } returns exchangeRate
 
         val result = moneyConverterCommandImpl.convert(clp, usdCurrency)
 
@@ -48,7 +48,7 @@ class MoneyConverterCommandImplTest {
     fun `Should throw Exception when currency is not found`() {
         val clp = Money(BigDecimal.valueOf(700), "CLP")
         val notFoundCurrency = "VAL"
-        every { exchangeRateRepository.findByBaseAndDestinationCurrency(notFoundCurrency, clpCurrency) } returns null
+        every { exchangeRateQuery.findByBaseAndDestinationCurrency(notFoundCurrency, clpCurrency) } returns null
 
         val exception = Assertions.catchThrowable {
             moneyConverterCommandImpl.convert(clp, notFoundCurrency)
