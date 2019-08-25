@@ -21,7 +21,7 @@ class MoneyTransferCommandImpl(private val moneyTransferValidator: MoneyTransfer
 
     private fun executeMoneyTransfer(originAccount: Account, transferAmount: Money, destinationAccount: Account): MoneyTransferDetail {
         val origin = withDrawMoney(originAccount, transferAmount)
-        val destination = transferMoney(destinationAccount, transferAmount)
+        val destination = transferMoney(destinationAccount, transferAmount, originAccount.balance.currency)
         return MoneyTransferDetail(UUID.randomUUID(), origin, destination)
     }
 
@@ -33,12 +33,15 @@ class MoneyTransferCommandImpl(private val moneyTransferValidator: MoneyTransfer
         )
     }
 
-    private fun transferMoney(destinationAccount: Account, transferAmount: Money) : Account {
-        val convertedAmount = moneyConverter.convert(transferAmount, destinationAccount.balance.currency)
-        val money = destinationAccount.balance.amount.plus(convertedAmount.amount)
-        return Account(
-            destinationAccount.accountId,
-            Money(money, destinationAccount.balance.currency)
+    private fun transferMoney(destinationAccount: Account, transferAmount: Money, currencyFromOriginAccount: String) : Account {
+        if(destinationAccount.balance.currency != currencyFromOriginAccount){
+            val convertedAmount = moneyConverter.convert(transferAmount, destinationAccount.balance.currency)
+            val money = destinationAccount.balance.amount.plus(convertedAmount.amount)
+            return Account(destinationAccount.accountId, Money(money, destinationAccount.balance.currency))
+        }
+        return Account(destinationAccount.accountId,
+            Money(destinationAccount.balance.amount.plus(transferAmount.amount), destinationAccount.balance.currency)
         )
+
     }
 }

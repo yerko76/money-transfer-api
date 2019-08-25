@@ -7,6 +7,7 @@ import com.yerko.domain.moneytransfer.Money
 import com.yerko.domain.moneytransfer.validator.MoneyTransferValidator
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -40,10 +41,10 @@ class MoneyTransferCommandImplTest {
         )
         val transferAmount = Money(BigDecimal.valueOf(50L), usdCurrency)
         val moneyTransfer = CreateMoneyTransfer(originAccount, destinationAccount, transferAmount)
-        every { moneyConverter.convert(transferAmount, usdCurrency) } returns transferAmount
 
         val transferDetail = moneyTransferCommand.transferAmount(moneyTransfer)
 
+        verify(exactly = 0) { moneyConverter.convert(transferAmount, usdCurrency) }
         assertThat(transferDetail.originAccount.balance.amount).isEqualTo(BigDecimal.valueOf(50L))
         assertThat(transferDetail.destinationAccount.balance.amount).isEqualTo(BigDecimal.valueOf(150L))
     }
