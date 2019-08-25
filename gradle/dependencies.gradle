@@ -1,16 +1,13 @@
-dependencies {
-    implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
-    implementation "io.micronaut:micronaut-runtime"
-    implementation "io.swagger.core.v3:swagger-annotations"
-    implementation "io.micronaut:micronaut-http-server-netty"
-    implementation "io.micronaut:micronaut-http-client"
-    runtimeOnly "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8"
-    runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
+repositories {
+    mavenCentral()
+}
 
-    testCompile "junit:junit:4.12"
-    testImplementation "org.amshove.kluent:kluent:1.40"
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.4.2"
     testImplementation "io.mockk:mockk:1.9.3"
-    testImplementation "org.assertj:assertj-core:3.13.2"
+    testImplementation(
+            'org.assertj:assertj-core:3.13.2',
+            'junit:junit:4.12'
+    )
 }
