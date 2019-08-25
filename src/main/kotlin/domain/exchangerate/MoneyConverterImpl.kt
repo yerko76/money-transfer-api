@@ -1,11 +1,10 @@
-package domain.exchangerate.command
+package domain.exchangerate
 
-import domain.exchangerate.ExchangeRateNotFoundException
 import domain.exchangerate.query.ExchangeRateQuery
 import domain.moneytransfer.Money
 import java.math.RoundingMode
 
-class MoneyConverterCommandImpl(private val exchangeRateQuery: ExchangeRateQuery) : MoneyConverterCommand {
+class MoneyConverterImpl(private val exchangeRateQuery: ExchangeRateQuery) : MoneyConverter {
     private val scale = 0
     override fun convert(money: Money, currency: String): Money {
         val exchangeRate = exchangeRateQuery.findByBaseAndDestinationCurrency(currency, money.currency)

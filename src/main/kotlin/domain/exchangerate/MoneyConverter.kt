@@ -1,7 +1,7 @@
-package domain.exchangerate.command
+package domain.exchangerate
 
 import domain.moneytransfer.Money
 
-interface MoneyConverterCommand {
+interface MoneyConverter {
     fun convert(money:Money, currency:String) :Money
 }

@@ -2,9 +2,9 @@ package domain.moneytransfer.exchangerate
 
 import domain.exchangerate.ExchangeRate
 import domain.exchangerate.ExchangeRateNotFoundException
-import domain.exchangerate.query.ExchangeRateQuery
+import domain.exchangerate.MoneyConverterImpl
 import domain.exchangerate.Rate
-import domain.exchangerate.command.MoneyConverterCommandImpl
+import domain.exchangerate.query.ExchangeRateQuery
 import domain.moneytransfer.Money
 import io.mockk.every
 import io.mockk.mockk
@@ -15,9 +15,9 @@ import org.junit.Test
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
-class MoneyConverterCommandImplTest {
+class MoneyConverterImplTest {
 
-    private lateinit var moneyConverterCommandImpl : MoneyConverterCommandImpl
+    private lateinit var moneyConverterCommandImpl : MoneyConverterImpl
     private lateinit var exchangeRateQuery: ExchangeRateQuery
     private val clpCurrency = "CLP"
     private val usdCurrency = "USD"
@@ -25,7 +25,7 @@ class MoneyConverterCommandImplTest {
     @Before
     fun setUp() {
         exchangeRateQuery = mockk()
-        moneyConverterCommandImpl = MoneyConverterCommandImpl(exchangeRateQuery)
+        moneyConverterCommandImpl = MoneyConverterImpl(exchangeRateQuery)
     }
 
     @Test
