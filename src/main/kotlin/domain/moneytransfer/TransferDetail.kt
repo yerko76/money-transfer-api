@@ -1,6 +1,7 @@
 package domain.moneytransfer
 
 import domain.account.Account
+import java.util.*
 
 
-data class TransferDetail(val originAccount: Account, val destinationAccount: Account)
+data class TransferDetail(val id:UUID, val originAccount: Account, val destinationAccount: Account)

@@ -1,24 +1,31 @@
 package domain.moneytransfer.validator
 
 import domain.moneytransfer.Money
-import domain.moneytransfer.validator.exception.DifferentCurrencyException
-import domain.moneytransfer.validator.exception.InsufficientBalanceException
+import domain.moneytransfer.validator.exception.MoneyTransferValidationException
+import java.math.BigDecimal
 
 class MoneyTransferValidatorImpl : MoneyTransferValidator {
     override fun validate(currentBalance: Money, transferAmount: Money) {
+        validateTransferAmount(transferAmount.amount)
         validateCurrency(currentBalance.currency, transferAmount.currency)
         validateBalance( currentBalance, transferAmount)
     }
 
+    private fun validateTransferAmount(amount: BigDecimal) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0){
+            throw MoneyTransferValidationException("Invalid transfer amount")
+        }
+    }
+
     private fun validateCurrency(currency:String, transferCurrency: String){
         if(currency != transferCurrency){
-            throw DifferentCurrencyException("Currency from origin account and transferAmount amount are different")
+            throw MoneyTransferValidationException("Currency from origin account and transferAmount amount are different")
         }
     }
 
     private fun validateBalance(balance: Money, transferAmount: Money) {
         if(balance.amount < transferAmount.amount){
-            throw InsufficientBalanceException("Account does not have enough balance for transferAmount operation")
+            throw MoneyTransferValidationException("Account does not have enough balance for transferAmount operation")
         }
     }
 

@@ -2,8 +2,7 @@ package domain.moneytransfer.validator
 
 import domain.account.Account
 import domain.moneytransfer.Money
-import domain.moneytransfer.validator.exception.DifferentCurrencyException
-import domain.moneytransfer.validator.exception.InsufficientBalanceException
+import domain.moneytransfer.validator.exception.MoneyTransferValidationException
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThatCode
 import org.junit.Before
@@ -21,7 +20,7 @@ class MoneyTransferValidatorTest {
     }
 
     @Test
-    fun `Should throw Insufficient Balance Exception when transfer amount is greater than balance`() {
+    fun `Should throw MoneyTransferValidationException when transfer amount is greater than balance`() {
         val originAccount = Account(UUID.randomUUID(), Money(BigDecimal.valueOf(100L), "USD"))
         val transferAmount = Money(BigDecimal.valueOf(150L), "USD")
 
@@ -30,12 +29,40 @@ class MoneyTransferValidatorTest {
         }
 
         Assertions.assertThat(exception)
-            .isInstanceOf(InsufficientBalanceException::class.java)
+            .isInstanceOf(MoneyTransferValidationException::class.java)
             .hasMessageContaining("Account does not have enough balance for transferAmount operation")
     }
 
     @Test
-    fun `Should trow DifferentCurrencyException when transfer amount is in different currency than account currency`() {
+    fun `Should throw MoneyTransferValidationException when transfer amount is negative`() {
+        val originAccount = Account(UUID.randomUUID(), Money(BigDecimal.valueOf(100L), "USD"))
+        val transferAmount = Money(BigDecimal.valueOf(-50L), "USD")
+
+        val exception = Assertions.catchThrowable {
+            moneyTransferValidator.validate(originAccount.balance, transferAmount)
+        }
+
+        Assertions.assertThat(exception)
+            .isInstanceOf(MoneyTransferValidationException::class.java)
+            .hasMessageContaining("Invalid transfer amount")
+    }
+
+    @Test
+    fun `Should throw MoneyTransferValidationException when transfer amount is zero`() {
+        val originAccount = Account(UUID.randomUUID(), Money(BigDecimal.valueOf(100L), "USD"))
+        val transferAmount = Money(BigDecimal.valueOf(0L), "USD")
+
+        val exception = Assertions.catchThrowable {
+            moneyTransferValidator.validate(originAccount.balance, transferAmount)
+        }
+
+        Assertions.assertThat(exception)
+            .isInstanceOf(MoneyTransferValidationException::class.java)
+            .hasMessageContaining("Invalid transfer amount")
+    }
+
+    @Test
+    fun `Should trow MoneyTransferValidationException when transfer amount is in different currency than account currency`() {
         val originAccount = Account(UUID.randomUUID(), Money(BigDecimal.valueOf(100L), "USD"))
         val transferAmount = Money(BigDecimal.valueOf(50L), "CLP")
 
@@ -44,7 +71,7 @@ class MoneyTransferValidatorTest {
         }
 
         Assertions.assertThat(exception)
-            .isInstanceOf(DifferentCurrencyException::class.java)
+            .isInstanceOf(MoneyTransferValidationException::class.java)
             .hasMessageContaining("Currency from origin account and transferAmount amount are different")
     }
 
