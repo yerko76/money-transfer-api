@@ -1,7 +1,5 @@
 package domain.moneytransfer.command
 
-import command.TransferMoneyCommand
-import command.TransferMoneyCommandImpl
 import domain.account.Account
 import domain.moneytransfer.Money
 import domain.moneytransfer.validator.MoneyTransferValidator
@@ -18,7 +16,7 @@ class TransferMoneyCommandTest {
 
     @Before
     fun setUp() {
-        moneyTransferValidator = mockk<MoneyTransferValidator>(relaxed = true)
+        moneyTransferValidator = mockk(relaxed = true)
         transferMoneyCommand = TransferMoneyCommandImpl(moneyTransferValidator)
     }
 
@@ -32,6 +30,5 @@ class TransferMoneyCommandTest {
 
         assertThat(transferDetail.originAccount.balance.amount).isEqualTo(BigDecimal.valueOf(50L))
         assertThat(transferDetail.destinationAccount.balance.amount).isEqualTo(BigDecimal.valueOf(150L))
-
     }
 }
