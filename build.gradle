@@ -3,6 +3,7 @@ plugins {
     id "org.jetbrains.kotlin.plugin.noarg" version "${kotlinVersion}"
     id "org.jetbrains.kotlin.plugin.allopen" version "${kotlinVersion}"
     id "org.jetbrains.kotlin.kapt" version "${kotlinVersion}"
+    id "com.gorylenko.gradle-git-properties" version "2.1.0"
     id "application"
 }
 

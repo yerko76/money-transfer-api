@@ -4,3 +4,8 @@ micronaut:
   server:
     host: localhost
     port: 8080
+
+endpoints:
+  info:
+    enabled: true
+    sensitive: false
