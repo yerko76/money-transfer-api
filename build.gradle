@@ -2,13 +2,16 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "${kotlinVersion}"
     id "org.jetbrains.kotlin.plugin.noarg" version "${kotlinVersion}"
     id "org.jetbrains.kotlin.plugin.allopen" version "${kotlinVersion}"
+    id "org.jetbrains.kotlin.kapt" version "${kotlinVersion}"
+    id "application"
 }
-
 
 group = 'com.yerko.transfer-money'
 version = '1.0-SNAPSHOT'
 
 apply plugin: 'idea'
+
+mainClassName = "com.yerko.MoneyTransferApplication"
 
 apply from: 'gradle/dependencies.gradle'
 
