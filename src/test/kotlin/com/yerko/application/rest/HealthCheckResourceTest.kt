@@ -1,4 +1,4 @@
-package com.yerko.resource
+package com.yerko.application.rest
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test

@@ -1,4 +1,4 @@
-package com.yerko.resource
+package com.yerko.application.rest
 
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get

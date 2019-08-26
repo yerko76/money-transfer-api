@@ -1,4 +1,4 @@
-package com.yerko.resource.account
+package com.yerko.application.rest.account
 
 import com.yerko.domain.moneytransfer.Money
 import org.assertj.core.api.Assertions.assertThat

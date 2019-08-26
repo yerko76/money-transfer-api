@@ -1,4 +1,4 @@
-package com.yerko.resource.account
+package com.yerko.application.rest.account
 
 import com.yerko.domain.account.command.CreateAccount
 import io.micronaut.http.HttpResponse
