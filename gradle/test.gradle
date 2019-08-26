@@ -1,7 +1,3 @@
-test {
-    useJUnitPlatform()
-}
-
 tasks.withType(Test){
     testLogging {
         exceptionFormat "full"
@@ -13,10 +9,12 @@ task unitTest(type: Test){
     description = "Runs Unit Tests"
     testClassesDirs = sourceSets.unitTest.output
     classpath = sourceSets.unitTest.runtimeClasspath
+    useJUnitPlatform()
 }
 
 task integrationTest(type: Test){
     description = "Runs Integration Tests"
     testClassesDirs = sourceSets.integrationTest.output
     classpath = sourceSets.integrationTest.runtimeClasspath
+    useJUnitPlatform()
 }
