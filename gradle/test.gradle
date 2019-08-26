@@ -1,0 +1,12 @@
+tasks.withType(Test){
+    testLogging {
+        exceptionFormat "full"
+        events "passed", "failed", "skipped"
+    }
+}
+
+task unitTest(type: Test){
+    description = "Runs Unit Tests"
+    testClassesDirs = sourceSets.unitTest.output
+    classpath = sourceSets.unitTest.runtimeClasspath
+}

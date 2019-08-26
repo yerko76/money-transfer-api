@@ -1,0 +1,13 @@
+sourceSets {
+    unitTest {
+        kotlin {
+            srcDir 'src/test/unitTest/kotlin'
+        }
+        resources {
+            srcDir 'src/test/unitTest/resources'
+        }
+        compileClasspath += sourceSets.main.runtimeClasspath
+        compileClasspath += sourceSets.test.compileClasspath
+        runtimeClasspath = output + compileClasspath
+    }
+}

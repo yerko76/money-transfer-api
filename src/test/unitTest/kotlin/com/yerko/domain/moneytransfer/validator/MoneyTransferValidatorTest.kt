@@ -2,8 +2,6 @@ package com.yerko.domain.moneytransfer.validator
 
 import com.yerko.domain.account.Account
 import com.yerko.domain.moneytransfer.Money
-import com.yerko.domain.moneytransfer.validator.MoneyTransferValidator
-import com.yerko.domain.moneytransfer.validator.MoneyTransferValidatorImpl
 import com.yerko.domain.moneytransfer.validator.exception.MoneyTransferValidationException
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThatCode

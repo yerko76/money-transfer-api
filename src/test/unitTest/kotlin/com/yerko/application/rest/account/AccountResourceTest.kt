@@ -9,7 +9,6 @@ import java.math.BigDecimal
 class AccountResourceTest {
     private lateinit var accountResource: AccountResource
 
-
     @Before
     fun setUp() {
         accountResource = AccountResource()
