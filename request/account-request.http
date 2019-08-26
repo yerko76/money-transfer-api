@@ -1,0 +1,12 @@
+POST http://{{host}}/account
+Content-Type: application/json
+X-Application-Name: registration-service
+
+{
+  "customerId": "some-customer-id",
+  "balance": {
+    "currency":"USD",
+    "amount":100
+  }
+}
+###

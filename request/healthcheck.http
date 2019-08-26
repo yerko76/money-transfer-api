@@ -1,0 +1,4 @@
+GET http://{{host}}/health
+Content-Type: application/json
+
+###
