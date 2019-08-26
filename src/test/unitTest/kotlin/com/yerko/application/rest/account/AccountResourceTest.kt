@@ -2,14 +2,14 @@ package com.yerko.application.rest.account
 
 import com.yerko.domain.moneytransfer.Money
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import java.math.BigDecimal
 
 class AccountResourceTest {
     private lateinit var accountResource: AccountResource
 
-    @Before
+    @BeforeEach
     fun setUp() {
         accountResource = AccountResource()
     }

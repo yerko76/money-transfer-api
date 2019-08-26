@@ -1,6 +1,7 @@
 micronaut:
+  api-version: v1
   application:
-    name: money-transfer-api
+    name: money-transfer
   server:
     host: localhost
     port: 8080

@@ -5,8 +5,8 @@ import com.yerko.domain.moneytransfer.Money
 import com.yerko.domain.moneytransfer.validator.exception.MoneyTransferValidationException
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThatCode
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import java.math.BigDecimal
 import java.util.*
 
@@ -14,7 +14,7 @@ class MoneyTransferValidatorTest {
 
     private lateinit var moneyTransferValidator : MoneyTransferValidator
 
-    @Before
+    @BeforeEach
     fun setUp() {
         moneyTransferValidator = MoneyTransferValidatorImpl()
     }

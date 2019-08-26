@@ -10,8 +10,8 @@ import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -22,7 +22,7 @@ class MoneyConverterImplTest {
     private val clpCurrency = "CLP"
     private val usdCurrency = "USD"
 
-    @Before
+    @BeforeEach
     fun setUp() {
         exchangeRateQuery = mockk()
         moneyConverterCommandImpl = MoneyConverterImpl(exchangeRateQuery)

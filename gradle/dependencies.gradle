@@ -21,11 +21,10 @@ dependencies {
     runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
 
     testImplementation "io.mockk:mockk:1.9.3"
-    testCompile "io.micronaut.test:micronaut-test-kotlintest:1.1.0"
-    testImplementation(
-            'org.assertj:assertj-core:3.13.2',
-            'junit:junit:4.12'
-    )
-    kaptTest platform("io.micronaut:micronaut-bom:$micronautVersion")
-    kaptTest "io.micronaut:micronaut-inject-java"
+    testImplementation('org.assertj:assertj-core:3.13.2')
+    testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+    runtime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+
+
 }
