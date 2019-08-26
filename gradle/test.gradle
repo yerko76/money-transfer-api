@@ -10,3 +10,9 @@ task unitTest(type: Test){
     testClassesDirs = sourceSets.unitTest.output
     classpath = sourceSets.unitTest.runtimeClasspath
 }
+
+task integrationTest(type: Test){
+    description = "Runs Integration Tests"
+    testClassesDirs = sourceSets.integrationTest.output
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}

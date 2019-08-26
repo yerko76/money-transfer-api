@@ -10,4 +10,16 @@ sourceSets {
         compileClasspath += sourceSets.test.compileClasspath
         runtimeClasspath = output + compileClasspath
     }
+
+    integrationTest {
+        kotlin {
+            srcDir 'src/test/integrationTest/kotlin'
+        }
+        resources {
+            srcDir 'src/test/integrationTest/resources'
+        }
+        compileClasspath += sourceSets.main.runtimeClasspath
+        compileClasspath += sourceSets.test.compileClasspath
+        runtimeClasspath = output + compileClasspath
+    }
 }
