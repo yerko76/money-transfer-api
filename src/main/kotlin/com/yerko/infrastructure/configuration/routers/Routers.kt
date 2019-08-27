@@ -13,9 +13,11 @@ fun Routing.healthCheckRoutes(healthCheckResource: HealthCheckResource){
     }
 }
 
-
 fun Routing.accountResourceRoutes(accountResource: AccountResource){
     route("/api/v1/accounts"){
         post { accountResource.create(this.context) }
+    }
+    route("/api/v1/accounts/{account-id}") {
+        get { accountResource.get(this.context) }
     }
 }
