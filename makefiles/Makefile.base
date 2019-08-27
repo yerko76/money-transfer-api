@@ -4,5 +4,5 @@ assemble:
 clean:
 	./gradlew clean
 
-start:
+run:
 	./gradlew run
