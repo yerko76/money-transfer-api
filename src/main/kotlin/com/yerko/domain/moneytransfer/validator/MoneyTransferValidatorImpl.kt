@@ -12,7 +12,7 @@ class MoneyTransferValidatorImpl : MoneyTransferValidator {
     }
 
     private fun validateTransferAmount(amount: BigDecimal) {
-        if (amount.compareTo(BigDecimal.ZERO) <= 0){
+        if (amount <= BigDecimal.ZERO){
             throw MoneyTransferValidationException("Invalid transfer amount")
         }
     }

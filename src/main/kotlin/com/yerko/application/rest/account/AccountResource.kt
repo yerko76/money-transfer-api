@@ -7,7 +7,6 @@ import io.ktor.request.receive
 import io.ktor.response.respond
 import org.slf4j.LoggerFactory
 import java.math.BigDecimal
-import java.time.LocalDateTime
 import java.util.*
 
 class AccountResource {
@@ -15,12 +14,9 @@ class AccountResource {
 
     suspend fun create(context: ApplicationCall) {
         val createAccountRequest = context.receive<CreateAccountRequest>()
-        val createAccount = CreateAccount(UUID.randomUUID(),
-            createAccountRequest.balance,
-            createAccountRequest.customerId,
-            LocalDateTime.now())
+        val createAccount = CreateAccount(createAccountRequest.balance, createAccountRequest.customerId)
         log.info("Creating account for customer {}", createAccount.customerId)
-        val accountResponse = AccountCreatedResponse(createAccount.accountId)
+        val accountResponse = AccountCreatedResponse(UUID.randomUUID())
         context.respond(HttpStatusCode.Created, accountResponse)
     }
 

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal
 import java.util.*
 
-class MoneyTransferValidatorTest {
+class MoneyTransferValidatorImplTest {
 
     private lateinit var moneyTransferValidator : MoneyTransferValidator
 
