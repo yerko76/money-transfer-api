@@ -57,4 +57,5 @@ class CreateAccountCommandHandlerTest {
             .isInstanceOf(AccountAlreadyExistException::class.java)
             .hasMessageContaining("Account already exists for customer: ${createAccount.customerId}")
     }
+
 }

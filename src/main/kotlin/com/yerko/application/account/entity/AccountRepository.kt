@@ -7,6 +7,6 @@ interface AccountWriteRepository {
 }
 
 interface AccountReadRepository {
-    fun findById(id: UUID) : AccountEntity
-    fun findByCustomerId(customerId: String): AccountEntity
+    fun findById(id: UUID) : AccountEntity?
+    fun findByCustomerId(customerId: String): AccountEntity?
 }
