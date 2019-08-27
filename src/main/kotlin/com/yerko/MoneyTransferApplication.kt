@@ -1,14 +1,13 @@
 package com.yerko
 
-import io.micronaut.runtime.Micronaut
+import io.ktor.server.engine.commandLineEnvironment
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
+
 
 object MoneyTransferApplication {
-
     @JvmStatic
     fun main(args: Array<String>) {
-        Micronaut.build()
-            .packages("com.yerko")
-            .mainClass(MoneyTransferApplication.javaClass)
-            .start()
+        embeddedServer(Netty, commandLineEnvironment(args)).start(wait = true)
     }
 }

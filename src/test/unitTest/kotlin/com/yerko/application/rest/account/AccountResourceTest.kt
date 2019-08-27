@@ -20,9 +20,7 @@ class AccountResourceTest {
         val accountRequest = CreateAccountRequest(initialBalance, "customerId")
 
         val response = accountResource.create(accountRequest)
-        val accountResponse = response.body() as AccountResponse
 
-        assertThat(response.status.code).isEqualTo(200)
-        assertThat(accountResponse.accountId).isNotNull()
+        assertThat(response.accountId).isNotNull()
     }
 }

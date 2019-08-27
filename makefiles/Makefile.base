@@ -1,0 +1,5 @@
+assemble:
+	./gradlew clean assemble $(ARG)
+
+clean:
+	./gradlew clean
