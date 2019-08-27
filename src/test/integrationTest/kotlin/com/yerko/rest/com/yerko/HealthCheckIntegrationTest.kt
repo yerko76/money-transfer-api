@@ -12,7 +12,6 @@ class HealthCheckIntegrationTest {
     @Test
     fun `should return UP`() {
         val response = runBlocking { getHealthCheck() }
-
         assertThat(response).isEqualTo("OK")
     }
 

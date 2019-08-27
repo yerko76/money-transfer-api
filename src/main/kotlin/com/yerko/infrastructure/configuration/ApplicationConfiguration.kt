@@ -1,7 +1,9 @@
 package com.yerko.infrastructure.configuration
 
 import com.yerko.application.rest.HealthCheckResource
-import com.yerko.infrastructure.configuration.routers.healthCheck
+import com.yerko.application.rest.account.AccountResource
+import com.yerko.infrastructure.configuration.routers.accountResourceRoutes
+import com.yerko.infrastructure.configuration.routers.healthCheckRoutes
 import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
@@ -12,6 +14,7 @@ import org.kodein.di.generic.instance
 
 fun Application.mainModule() {
     val healthCheckResource by ModulesConfiguration.kodein.instance<HealthCheckResource>()
+    val accountResource by ModulesConfiguration.kodein.instance<AccountResource>()
 
     install(DefaultHeaders)
     install(ContentNegotiation) {
@@ -19,6 +22,7 @@ fun Application.mainModule() {
         }
     }
     routing {
-        healthCheck(healthCheckResource)
+        healthCheckRoutes(healthCheckResource)
+        accountResourceRoutes(accountResource)
     }
 }

@@ -1,4 +1,4 @@
-GET http://{{host}}/health
+GET http://{{host}}/api/v1/health
 Content-Type: application/json
 
 ###

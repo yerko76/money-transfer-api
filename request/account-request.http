@@ -1,4 +1,4 @@
-POST http://{{host}}/account
+POST http://{{host}}/api/v1/accounts
 Content-Type: application/json
 
 {
