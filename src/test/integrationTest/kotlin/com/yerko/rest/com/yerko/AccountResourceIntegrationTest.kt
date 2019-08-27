@@ -1,6 +1,8 @@
 package com.yerko.rest.com.yerko
 
-import com.yerko.application.rest.account.*
+import com.yerko.application.rest.account.AccountCreatedResponse
+import com.yerko.application.rest.account.AccountInformationResponse
+import com.yerko.application.rest.account.CreateAccountRequest
 import com.yerko.domain.moneytransfer.Money
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JacksonSerializer
@@ -38,7 +40,7 @@ class AccountResourceIntegrationTest {
         requestBuilder.url("http://0.0.0.0:8080/api/v1/accounts")
         requestBuilder.body = account
 
-        val response = runBlocking { createAccount(account) }
+        val response = runBlocking { createAccount() }
 
         assertThat(response.accountId).isNotNull()
     }
