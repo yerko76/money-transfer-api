@@ -17,8 +17,8 @@ import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.util.*
 
-class TransferMoneyCommandHandlerTest {
-    private lateinit var moneyCommandHandler: TransferMoneyCommandHandler
+class MoneyTransferCommandHandlerTest {
+    private lateinit var moneyTransferCommandHandler: MoneyTransferCommandHandler
     private lateinit var accountQueryHandler: AccountQueryHandler
     private lateinit var moneyTransferCommand: MoneyTransferCommand
     private lateinit var moneyTransferService: MoneyTransferService
@@ -28,7 +28,7 @@ class TransferMoneyCommandHandlerTest {
         accountQueryHandler = mockk()
         moneyTransferCommand = mockk()
         moneyTransferService = mockk()
-        moneyCommandHandler = TransferMoneyCommandHandler(accountQueryHandler, moneyTransferCommand, moneyTransferService)
+        moneyTransferCommandHandler = MoneyTransferCommandHandler(accountQueryHandler, moneyTransferCommand, moneyTransferService)
     }
 
     @Test
@@ -45,7 +45,7 @@ class TransferMoneyCommandHandlerTest {
         every { runBlocking { moneyTransferService.saveTransaction(any()) } } returns transactionId
         every { moneyTransferCommand.transferAmount(any()) } returns detail
 
-        val transferResult = runBlocking { moneyCommandHandler.transferMoney(createMoneyTransfer) }
+        val transferResult = runBlocking { moneyTransferCommandHandler.transferMoney(createMoneyTransfer) }
 
         assertThat(transferResult.transactionId).isNotNull()
         assertThat(transferResult.fromAccountId).isNotNull()

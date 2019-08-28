@@ -11,10 +11,11 @@ import com.yerko.domain.moneytransfer.MoneyTransferDetail
 import com.yerko.domain.moneytransfer.command.MoneyTransferCommand
 import kotlinx.coroutines.runBlocking
 
-class TransferMoneyCommandHandler(private val accountQueryHandler: AccountQueryHandler,
+class MoneyTransferCommandHandler(private val accountQueryHandler: AccountQueryHandler,
                                   private val moneyTransferCommand: MoneyTransferCommand,
                                   private val moneyTransferService: MoneyTransferService){
-    suspend fun transferMoney(createMoneyTransferRequest: CreateMoneyTransferRequest) : MoneyTransferResponse{
+
+    suspend fun transferMoney(createMoneyTransferRequest: CreateMoneyTransferRequest) : MoneyTransferResponse {
         val transferRequest = prepareTransaction(createMoneyTransferRequest)
         val transferResponse = moneyTransferCommand.transferAmount(transferRequest)
         val transactionId = persistMoneyTransfer(transferResponse)
