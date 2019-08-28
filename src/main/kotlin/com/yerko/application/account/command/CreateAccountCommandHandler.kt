@@ -15,9 +15,11 @@ class CreateAccountCommandHandler(private val accountRepository: AccountWriteRep
     override fun create(createAccount: CreateAccount): UUID {
         val account = AccountEntity(
             UUID.randomUUID(),
-            createAccount.balance,
+            createAccount.balance.amount,
+            createAccount.balance.currency,
             createAccount.customerId,
-            LocalDateTime.now()
+            LocalDateTime.now(),
+            true
         )
         try {
             return accountRepository.save(account)

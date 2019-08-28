@@ -30,12 +30,14 @@ class CreateAccountCommandHandlerTest {
         val expectedAccountId = UUID.randomUUID()
         val createAccount = CreateAccount(
             Money(BigDecimal.TEN, "USD"),
-            "customer-id")
+            UUID.randomUUID())
         val accountEntity = AccountEntity(
             UUID.randomUUID(),
-            createAccount.balance,
+            createAccount.balance.amount,
+            createAccount.balance.currency,
             createAccount.customerId,
-            LocalDateTime.now()
+            LocalDateTime.now(),
+            true
         )
         every { repository.save(any() ) } returns expectedAccountId
 
@@ -46,7 +48,7 @@ class CreateAccountCommandHandlerTest {
 
     @Test
     fun `Should throw exception when account already exist`() {
-        val createAccount = CreateAccount(Money(BigDecimal.TEN, "USD"), "customer-id")
+        val createAccount = CreateAccount(Money(BigDecimal.TEN, "USD"), UUID.randomUUID())
         every { repository.save(any() ) } throws RuntimeException("Some persistance error")
 
         val exception = Assertions.catchThrowable {

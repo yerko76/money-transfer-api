@@ -18,6 +18,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
+import java.util.*
 
 class AccountResourceIntegrationTest {
     private lateinit var requestBuilder: HttpRequestBuilder
@@ -36,7 +37,7 @@ class AccountResourceIntegrationTest {
 
     @Test
     fun `should return AccountId when I open a new account`() {
-        val account = CreateAccountRequest(Money(BigDecimal(100L), "USD"), "CUSTOMER-ID")
+        val account = CreateAccountRequest(Money(BigDecimal(100L), "USD"), UUID.randomUUID())
         requestBuilder.url("http://0.0.0.0:8080/api/v1/accounts")
         requestBuilder.body = account
 
