@@ -1,0 +1,13 @@
+version: '3.1'
+services:
+
+  money-transfer-db:
+    image: postgres:10.5
+    restart: always
+    ports:
+      - "54321:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: payment
+

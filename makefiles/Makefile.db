@@ -8,4 +8,4 @@ db-stop: ## Stops running database container without removing it
 	docker-compose stop $(DB_SERVICE)
 
 db-migrate: ## Run flyway migrations
-	 source makefiles/.env && ./gradlew flywayMigrate
+	 source db-credentials && ./gradlew flywayMigrate
