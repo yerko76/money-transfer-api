@@ -1,6 +1,5 @@
 package com.yerko.infrastructure.persistance
 
-import com.yerko.application.account.command.UnableToCreateAccountException
 import com.yerko.application.account.entity.AccountDto
 import com.yerko.application.account.entity.AccountEntity
 import com.yerko.application.account.entity.AccountWriteRepository
@@ -20,8 +19,8 @@ class AccountWriteRepositoryImpl : AccountWriteRepository {
             }
             return@dbQuery account.accountId
         } catch (e: Exception){
-            log.error("Unable to update account for customer: {} due to {}", account.customerId, e.message)
-            throw UnableToCreateAccountException("Unable to create account for customer: ${account.customerId}")
+            log.error("Unable to update account for customer: {} due to {}", account.customerId, e.message, e)
+            throw PersistanceException("Unable to create account for customer: ${account.customerId}")
         }
     }
 
@@ -35,8 +34,8 @@ class AccountWriteRepositoryImpl : AccountWriteRepository {
                     it[active] = true }
             return@dbQuery account.accountId
         } catch (e: Exception){
-            log.error("Unable to create account for customer: {} due to {}", account.customerId, e.message)
-            throw UnableToCreateAccountException("Unable to create account for customer: ${account.customerId}")
+            log.error("Unable to create account for customer: {} due to {}", account.customerId, e.message, e)
+            throw PersistanceException("Unable to create account for customer: ${account.customerId}")
         }
     }
 }

@@ -9,6 +9,7 @@ import com.yerko.domain.moneytransfer.validator.exception.MoneyTransferValidatio
 import com.yerko.infrastructure.configuration.routers.accountResourceRoutes
 import com.yerko.infrastructure.configuration.routers.healthCheckRoutes
 import com.yerko.infrastructure.configuration.routers.moneyTansferResourceRoutes
+import com.yerko.infrastructure.persistance.PersistanceException
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -40,6 +41,9 @@ fun Application.mainModule() {
         }
         exception<AccountNotFoundException> { cause ->
             call.respond(HttpStatusCode.BadRequest, cause.message)
+        }
+        exception<PersistanceException> { cause ->
+            call.respond(HttpStatusCode.ServiceUnavailable, cause.message)
         }
         exception<Exception> { cause ->
             cause.message?.let { call.respond(HttpStatusCode.InternalServerError, it) }

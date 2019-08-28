@@ -13,8 +13,8 @@ interface MoneyTransferService {
 }
 
 class MoneyTransferServiceImpl(private val updateAccountCommandHandler: UpdateAccountCommandHandler,
-                               private val moneyTransferWriteRepository: MoneyTransferWriteRepository
-) : MoneyTransferService{
+                               private val moneyTransferWriteRepository: MoneyTransferWriteRepository) : MoneyTransferService{
+
     override suspend fun saveTransaction(moneyTransferDetail: MoneyTransferDetail): Int {
             val originAccountId = updateAccountBalance(moneyTransferDetail.originAccount)
             val destinationAccountId =updateAccountBalance(moneyTransferDetail.destinationAccount)
@@ -26,7 +26,7 @@ class MoneyTransferServiceImpl(private val updateAccountCommandHandler: UpdateAc
                     destinationAccountId,
                     moneyTransferDetail.originAccount.balance
                 )
-            )
+            )!!
     }
 
     private fun updateAccountBalance(account: Account) : UUID {
