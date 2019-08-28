@@ -6,14 +6,13 @@ import com.yerko.application.account.entity.AccountWriteRepository
 import com.yerko.application.account.entity.MoneyDto
 import com.yerko.domain.account.command.CreateAccount
 import com.yerko.domain.account.command.CreateAccountCommand
-import com.yerko.infrastructure.persistance.AccountWriteRepositoryImpl
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import java.util.*
 
 class CreateAccountCommandHandler(private val accountWriteRepository: AccountWriteRepository,
                                   private val accountReadRepository: AccountReadRepository) : CreateAccountCommand {
-    private val log = LoggerFactory.getLogger(AccountWriteRepositoryImpl::class.java)
+    private val log = LoggerFactory.getLogger(CreateAccountCommandHandler::class.java)
 
     override fun create(createAccount: CreateAccount): UUID {
         val account = AccountDto(

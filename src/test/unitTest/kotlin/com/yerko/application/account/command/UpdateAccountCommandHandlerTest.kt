@@ -4,9 +4,7 @@ import com.yerko.application.account.entity.AccountDto
 import com.yerko.application.account.entity.AccountReadRepository
 import com.yerko.application.account.entity.AccountWriteRepository
 import com.yerko.application.account.entity.MoneyDto
-import com.yerko.domain.account.command.CreateAccount
 import com.yerko.domain.account.command.UpdateAccount
-import com.yerko.domain.account.command.UpdateAccountCommand
 import com.yerko.domain.moneytransfer.Money
 import io.mockk.every
 import io.mockk.mockk

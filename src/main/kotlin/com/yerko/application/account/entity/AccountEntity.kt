@@ -18,8 +18,9 @@ object AccountEntity: Table("account"){
 data class AccountDto @JsonCreator constructor(
     @JsonProperty("accountId") val accountId:UUID,
     @JsonProperty("balance") val moneyDto: MoneyDto,
-    @JsonProperty("customerId") val customerId: UUID,
-    @JsonProperty("active") val active: Boolean)
+    @JsonProperty("customerId") val customerId: UUID?,
+    @JsonProperty("active") val active: Boolean?
+)
 
 data class MoneyDto @JsonCreator constructor(
     @JsonProperty("amount") val amount: BigDecimal,
