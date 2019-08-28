@@ -5,6 +5,7 @@ import java.util.*
 
 interface AccountWriteRepository {
     suspend fun save(account: AccountDto): UUID
+    suspend fun update(account: AccountDto): UUID
 }
 
 interface AccountReadRepository: AccountQuery {
