@@ -1,0 +1,11 @@
+db-up: ## Builds, (re)creates, starts, and attaches to container for database service
+	docker-compose up --force-recreate -d $(DB_SERVICE) && make db-migrate
+
+db-down: ## Stops and removes the database service container
+	docker-compose rm --stop --force $(DB_SERVICE)
+
+db-stop: ## Stops running database container without removing it
+	docker-compose stop $(DB_SERVICE)
+
+db-migrate: ## Run flyway migrations
+	 source makefiles/.env && ./gradlew flywayMigrate
