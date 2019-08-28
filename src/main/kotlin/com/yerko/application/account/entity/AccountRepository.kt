@@ -3,10 +3,10 @@ package com.yerko.application.account.entity
 import java.util.*
 
 interface AccountWriteRepository {
-    fun save(account: AccountEntity) : UUID
+    suspend fun save(account: AccountDto) : UUID
 }
 
 interface AccountReadRepository {
-    fun findById(id: UUID) : AccountEntity?
-    fun findByCustomerId(customerId: String): AccountEntity?
+    suspend fun findById(id: UUID) : AccountDto?
+    suspend fun findByCustomerId(customerId: UUID): AccountDto?
 }

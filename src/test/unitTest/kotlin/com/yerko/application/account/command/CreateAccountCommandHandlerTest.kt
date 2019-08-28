@@ -1,17 +1,16 @@
 package com.yerko.application.account.command
 
-import com.yerko.application.account.entity.AccountEntity
 import com.yerko.application.account.entity.AccountWriteRepository
 import com.yerko.domain.account.command.CreateAccount
 import com.yerko.domain.moneytransfer.Money
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
-import java.time.LocalDateTime
 import java.util.*
 
 class CreateAccountCommandHandlerTest {
@@ -31,15 +30,7 @@ class CreateAccountCommandHandlerTest {
         val createAccount = CreateAccount(
             Money(BigDecimal.TEN, "USD"),
             UUID.randomUUID())
-        val accountEntity = AccountEntity(
-            UUID.randomUUID(),
-            createAccount.balance.amount,
-            createAccount.balance.currency,
-            createAccount.customerId,
-            LocalDateTime.now(),
-            true
-        )
-        every { repository.save(any() ) } returns expectedAccountId
+        every { runBlocking{ repository.save(any()) } } returns expectedAccountId
 
         val response = createAccountCommand.create(createAccount)
 
@@ -49,7 +40,7 @@ class CreateAccountCommandHandlerTest {
     @Test
     fun `Should throw exception when account already exist`() {
         val createAccount = CreateAccount(Money(BigDecimal.TEN, "USD"), UUID.randomUUID())
-        every { repository.save(any() ) } throws RuntimeException("Some persistance error")
+        every { runBlocking { repository.save(any()) } } throws RuntimeException("Some persistance error")
 
         val exception = Assertions.catchThrowable {
             createAccountCommand.create(createAccount)

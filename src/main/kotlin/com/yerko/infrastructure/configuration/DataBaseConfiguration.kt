@@ -4,7 +4,10 @@ import com.typesafe.config.ConfigFactory
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.ktor.config.HoconApplicationConfig
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.transactions.experimental.transaction
 
 object DatabaseFactory {
 
@@ -29,5 +32,10 @@ object DatabaseFactory {
         config.validate()
         return HikariDataSource(config)
     }
+
+    suspend fun <T> dbQuery(block: () -> T): T =
+        withContext(Dispatchers.IO) {
+            transaction { block() }
+        }
 
 }

@@ -4,7 +4,6 @@ import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table
 import org.joda.time.DateTime
 import java.math.BigDecimal
-import java.time.LocalDateTime
 import java.util.*
 
 object AccountsEntity: Table(){
@@ -16,10 +15,9 @@ object AccountsEntity: Table(){
     val active: Column<Boolean> = bool("active")
 }
 
-data class AccountEntity(
+data class AccountDto(
     val accountId:UUID,
     val balance: BigDecimal,
     val currency: String,
     val customerId: UUID,
-    val createdAt: LocalDateTime,
     val active: Boolean)
