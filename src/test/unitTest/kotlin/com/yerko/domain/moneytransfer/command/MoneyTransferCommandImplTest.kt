@@ -1,14 +1,11 @@
 package com.yerko.domain.moneytransfer.command
 
 import com.yerko.domain.account.Account
-import com.yerko.domain.exchangerate.MoneyConverter
 import com.yerko.domain.moneytransfer.CreateMoneyTransfer
 import com.yerko.domain.moneytransfer.Money
 import com.yerko.domain.moneytransfer.validator.MoneyTransferValidator
-import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
@@ -17,16 +14,17 @@ import java.util.*
 class MoneyTransferCommandImplTest {
     private lateinit var moneyTransferCommand: MoneyTransferCommand
     private lateinit var moneyTransferValidator: MoneyTransferValidator
-    private lateinit var moneyConverter: MoneyConverter
+    private lateinit var withDrawCommand: WithDrawMoneyCommand
+    private lateinit var transferMoneyCommand: TransferMoneyCommand
     private val clpCurrency = "CLP"
     private val usdCurrency = "USD"
 
     @BeforeEach
     fun setUp() {
         moneyTransferValidator = mockk(relaxed = true)
-        moneyConverter = mockk()
-        moneyTransferCommand =
-            MoneyTransferCommandImpl(moneyTransferValidator, moneyConverter)
+        withDrawCommand = mockk(relaxed = true)
+        transferMoneyCommand = mockk(relaxed = true)
+        moneyTransferCommand = MoneyTransferCommandImpl(moneyTransferValidator, withDrawCommand, transferMoneyCommand)
     }
 
     @Test
@@ -42,31 +40,11 @@ class MoneyTransferCommandImplTest {
         val transferAmount = BigDecimal.valueOf(50L)
         val moneyTransfer = CreateMoneyTransfer(originAccount, destinationAccount, transferAmount)
 
-        val transferDetail = moneyTransferCommand.transferAmount(moneyTransfer)
+         moneyTransferCommand.transferAmount(moneyTransfer)
 
-        verify(exactly = 0) { moneyConverter.convert(Money(transferAmount, usdCurrency), usdCurrency) }
-        assertThat(transferDetail.originAccount.balance.amount).isEqualTo(BigDecimal.valueOf(50L))
-        assertThat(transferDetail.destinationAccount.balance.amount).isEqualTo(BigDecimal.valueOf(150L))
+        verify(atLeast = 1) { moneyTransferValidator.validate(any(),any()) }
+        verify(atLeast = 1) { withDrawCommand.withDrawMoney(any(),any()) }
+        verify(atLeast = 1) { transferMoneyCommand.transferMoney(any(),any(), any()) }
     }
 
-    @Test
-    fun `Should transfer money from one account to another account with different currency`() {
-        val originAccount = Account(
-            UUID.randomUUID(),
-            Money(BigDecimal.valueOf(100L), usdCurrency)
-        )
-        val destinationAccount = Account(
-            UUID.randomUUID(),
-            Money(BigDecimal.valueOf(10000L), clpCurrency)
-        )
-        val transferAmount = BigDecimal.valueOf(50L)
-        val convertedAmount = Money(BigDecimal.valueOf(35162L), clpCurrency)
-        val moneyTransfer = CreateMoneyTransfer(originAccount, destinationAccount, transferAmount)
-        every { moneyConverter.convert(Money(transferAmount, usdCurrency), clpCurrency) } returns convertedAmount
-
-        val transferDetail = moneyTransferCommand.transferAmount(moneyTransfer)
-
-        assertThat(transferDetail.originAccount.balance.amount).isEqualTo(BigDecimal.valueOf(50L))
-        assertThat(transferDetail.destinationAccount.balance.amount).isEqualTo(BigDecimal.valueOf(45162L))
-    }
 }
