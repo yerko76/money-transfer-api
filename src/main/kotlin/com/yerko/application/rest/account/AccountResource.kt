@@ -2,13 +2,11 @@ package com.yerko.application.rest.account
 import com.yerko.application.account.query.AccountQuery
 import com.yerko.domain.account.command.CreateAccount
 import com.yerko.domain.account.command.CreateAccountCommand
-import com.yerko.domain.moneytransfer.Money
 import io.ktor.application.ApplicationCall
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
 import org.slf4j.LoggerFactory
-import java.math.BigDecimal
 import java.util.*
 
 class AccountResource(private val accountCommand: CreateAccountCommand,
@@ -26,8 +24,8 @@ class AccountResource(private val accountCommand: CreateAccountCommand,
 
     suspend fun get(context: ApplicationCall) {
         val accountId = context.parameters["account-id"]
-        log.info("Getting account information for customer {}", accountId)
-        val accountInformation = AccountInformationResponse(UUID.randomUUID(), Money(BigDecimal.ZERO, "USD"), "Customer-iD" )
+        log.info("Getting account information for account: {}", accountId)
+        val accountInformation = accountQuery.findById(UUID.fromString(accountId))
         log.info("Returning account information for customer {}", accountInformation.customerId)
         context.respond(HttpStatusCode.OK, accountInformation)
     }

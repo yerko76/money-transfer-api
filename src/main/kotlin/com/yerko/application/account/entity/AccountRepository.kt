@@ -8,5 +8,4 @@ interface AccountWriteRepository {
 
 interface AccountReadRepository {
     suspend fun findById(id: UUID) : AccountDto?
-    suspend fun findByCustomerId(customerId: UUID): AccountDto?
 }

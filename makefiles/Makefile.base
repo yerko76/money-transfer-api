@@ -5,4 +5,4 @@ clean:
 	./gradlew clean
 
 run:
-	source db-credentials ./gradlew run
+	source db-credentials && ./gradlew run

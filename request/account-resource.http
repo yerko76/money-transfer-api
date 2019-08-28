@@ -9,7 +9,7 @@ Content-Type: application/json
   }
 }
 ###
-GET http://{{host}}/api/v1/accounts/1234
+GET http://{{host}}/api/v1/accounts/156f6516-33e3-41b6-9335-abcff54d7000
 Content-Type: application/json
 
 ###

@@ -6,7 +6,7 @@ import org.joda.time.DateTime
 import java.math.BigDecimal
 import java.util.*
 
-object AccountsEntity: Table(){
+object AccountEntity: Table("account"){
     val accountId: Column<UUID> = uuid("account_id").primaryKey()
     val balance: Column<BigDecimal> = decimal("balance",15, 6)
     val currency: Column<String> = varchar("currency", 3)

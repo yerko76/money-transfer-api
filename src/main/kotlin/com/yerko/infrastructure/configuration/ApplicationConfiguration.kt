@@ -21,6 +21,9 @@ fun Application.mainModule() {
         jackson {
         }
     }
+
+    DatabaseFactory.init()
+
     routing {
         healthCheckRoutes(healthCheckResource)
         accountResourceRoutes(accountResource)

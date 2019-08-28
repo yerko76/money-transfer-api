@@ -3,7 +3,7 @@ create TABLE account (
     balance numeric(15,6),
     currency varchar(3),
     customer_id uuid,
-    created_ad TIMESTAMP DEFAULT NOW(),
+    created_at TIMESTAMP DEFAULT NOW(),
     active boolean,
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
 );

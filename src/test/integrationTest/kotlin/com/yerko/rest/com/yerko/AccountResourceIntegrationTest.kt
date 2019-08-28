@@ -37,7 +37,8 @@ class AccountResourceIntegrationTest {
 
     @Test
     fun `should return AccountId when I open a new account`() {
-        val account = CreateAccountRequest(Money(BigDecimal(100L), "USD"), UUID.randomUUID())
+        val existingCustomerInDb = "156f6516-33e3-41b6-9335-bbbff54d9098"
+        val account = CreateAccountRequest(Money(BigDecimal(100L), "USD"), UUID.fromString(existingCustomerInDb))
         requestBuilder.url("http://0.0.0.0:8080/api/v1/accounts")
         requestBuilder.body = account
 
@@ -48,7 +49,7 @@ class AccountResourceIntegrationTest {
 
     @Test
     fun `should return AccountInformation when I pass accountId`() {
-        val accountId = "212885e8-91d4-4ceb-9a28-df2401ede790"
+        val accountId = "156f6516-33e3-41b6-9335-abcff54d7003"
         requestBuilder.url("http://0.0.0.0:8080/api/v1/accounts/${accountId}")
         val response = runBlocking { getAccountInformation() }
 
