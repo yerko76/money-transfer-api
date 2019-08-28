@@ -20,7 +20,7 @@ class AccountWriteRepositoryImpl : AccountWriteRepository {
             }
             return@dbQuery account.accountId
         } catch (e: Exception){
-            log.error("Unable to create account for customer: {} due to {}", account.customerId, e.message)
+            log.error("Unable to update account for customer: {} due to {}", account.customerId, e.message)
             throw UnableToCreateAccountException("Unable to create account for customer: ${account.customerId}")
         }
     }
