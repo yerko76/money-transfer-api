@@ -1,4 +1,4 @@
-package com.yerko.application.account.entity
+package com.yerko.application.moneytransfer.entity
 
 import com.yerko.domain.moneytransfer.Money
 import org.jetbrains.exposed.sql.Column
