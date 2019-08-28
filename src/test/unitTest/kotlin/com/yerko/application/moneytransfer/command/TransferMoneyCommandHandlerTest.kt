@@ -21,16 +21,19 @@ class TransferMoneyCommandHandlerTest {
     private lateinit var moneyCommandHandler: TransferMoneyCommandHandler
     private lateinit var accountQueryHandler: AccountQueryHandler
     private lateinit var moneyTransferCommand: MoneyTransferCommand
+    private lateinit var moneyTransferService: MoneyTransferService
 
     @BeforeEach
     fun setUp() {
         accountQueryHandler = mockk()
         moneyTransferCommand = mockk()
-        moneyCommandHandler = TransferMoneyCommandHandler(accountQueryHandler, moneyTransferCommand)
+        moneyTransferService = mockk()
+        moneyCommandHandler = TransferMoneyCommandHandler(accountQueryHandler, moneyTransferCommand, moneyTransferService)
     }
 
     @Test
     fun `Should transfer money`() {
+        val transactionId = 29812
         val originAccount = UUID.randomUUID()
         val destinationAccount = UUID.randomUUID()
         val createMoneyTransfer = CreateMoneyTransferRequest(originAccount, destinationAccount, BigDecimal.TEN)
@@ -39,6 +42,7 @@ class TransferMoneyCommandHandlerTest {
         val detail = MoneyTransferDetail(convertToAccount(firstAccount), convertToAccount(second),Money(BigDecimal.TEN,"USD"))
         every { runBlocking { accountQueryHandler.findById(any()) } } returns firstAccount
         every { runBlocking { accountQueryHandler.findById(any()) } } returns second
+        every { runBlocking { moneyTransferService.saveTransaction(any()) } } returns transactionId
         every { moneyTransferCommand.transferAmount(any()) } returns detail
 
         val transferResult = runBlocking { moneyCommandHandler.transferMoney(createMoneyTransfer) }

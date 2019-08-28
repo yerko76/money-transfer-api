@@ -5,8 +5,9 @@ import com.yerko.application.account.command.UpdateAccountCommandHandler
 import com.yerko.application.account.entity.AccountReadRepository
 import com.yerko.application.account.entity.AccountWriteRepository
 import com.yerko.application.account.query.AccountQueryHandler
+import com.yerko.application.moneytransfer.command.MoneyTransferService
+import com.yerko.application.moneytransfer.command.MoneyTransferServiceImpl
 import com.yerko.application.moneytransfer.command.TransferMoneyCommandHandler
-import com.yerko.application.moneytransfer.command.TransferMoneyServiceImpl
 import com.yerko.application.moneytransfer.entity.MoneyTransferWriteRepository
 import com.yerko.application.rest.HealthCheckResource
 import com.yerko.application.rest.account.AccountResource
@@ -30,8 +31,9 @@ object ModulesConfiguration {
 
     private val transferMoneyModule = Kodein.Module("TransferMoneyModule") {
         bind<MoneyTransferWriteRepository>() with singleton { MoneyTransferWriteRepositoryImpl() }
-        bind<TransferMoneyCommandHandler>() with singleton { TransferMoneyCommandHandler(instance(), instance()) }
-        bind<TransferMoneyServiceImpl>() with singleton { TransferMoneyServiceImpl(instance(), instance()) }
+        bind<MoneyTransferService>() with singleton { MoneyTransferServiceImpl(instance(), instance()) }
+        bind<TransferMoneyCommandHandler>() with singleton { TransferMoneyCommandHandler(instance(), instance(), instance()) }
+        bind<MoneyTransferServiceImpl>() with singleton { MoneyTransferServiceImpl(instance(), instance()) }
 
     }
 

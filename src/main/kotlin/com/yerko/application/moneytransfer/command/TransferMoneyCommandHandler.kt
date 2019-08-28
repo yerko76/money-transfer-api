@@ -7,24 +7,28 @@ import com.yerko.application.rest.moneytransfer.MoneyTransferResponse
 import com.yerko.domain.account.Account
 import com.yerko.domain.moneytransfer.CreateMoneyTransfer
 import com.yerko.domain.moneytransfer.Money
+import com.yerko.domain.moneytransfer.MoneyTransferDetail
 import com.yerko.domain.moneytransfer.command.MoneyTransferCommand
 import kotlinx.coroutines.runBlocking
 
 class TransferMoneyCommandHandler(private val accountQueryHandler: AccountQueryHandler,
-                                  private val moneyTransferCommand: MoneyTransferCommand){
+                                  private val moneyTransferCommand: MoneyTransferCommand,
+                                  private val moneyTransferService: MoneyTransferService){
     suspend fun transferMoney(createMoneyTransferRequest: CreateMoneyTransferRequest) : MoneyTransferResponse{
         val transferRequest = prepareTransaction(createMoneyTransferRequest)
         val transferResponse = moneyTransferCommand.transferAmount(transferRequest)
-//        val persistedResponse = persistMoneyTransfer(transferResponse)
-        return MoneyTransferResponse(1,
+        val transactionId = persistMoneyTransfer(transferResponse)
+
+        return MoneyTransferResponse(transactionId,
             transferResponse.originAccount.accountId,
             transferResponse.destinationAccount.accountId,
             transferResponse.destinationAccount.balance
-            )
+        )
     }
 
-//    private fun persistMoneyTransfer(transferResponse: MoneyTransferDetail): Any {
-//    }
+    private suspend fun persistMoneyTransfer(transferResponse: MoneyTransferDetail): Int {
+        return moneyTransferService.saveTransaction(moneyTransferDetail = transferResponse)
+    }
 
     private fun prepareTransaction(createMoneyTransferRequest: CreateMoneyTransferRequest): CreateMoneyTransfer {
         val fromAccount = runBlocking { accountQueryHandler.findById(createMoneyTransferRequest.fromAccountId) }
