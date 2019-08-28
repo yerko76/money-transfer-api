@@ -6,7 +6,7 @@ import com.yerko.domain.moneytransfer.CreateMoneyTransfer
 import com.yerko.domain.moneytransfer.Money
 import com.yerko.domain.moneytransfer.MoneyTransferDetail
 import com.yerko.domain.moneytransfer.validator.MoneyTransferValidator
-import java.util.*
+import java.math.BigDecimal
 
 class MoneyTransferCommandImpl(private val moneyTransferValidator: MoneyTransferValidator,
                                private val moneyConverter: MoneyConverter) : MoneyTransferCommand {
@@ -19,28 +19,29 @@ class MoneyTransferCommandImpl(private val moneyTransferValidator: MoneyTransfer
         return executeMoneyTransfer(originAccount, transferAmount, destinationAccount)
     }
 
-    private fun executeMoneyTransfer(originAccount: Account, transferAmount: Money, destinationAccount: Account): MoneyTransferDetail {
+    private fun executeMoneyTransfer(originAccount: Account, transferAmount: BigDecimal, destinationAccount: Account): MoneyTransferDetail {
         val origin = withDrawMoney(originAccount, transferAmount)
         val destination = transferMoney(destinationAccount, transferAmount, originAccount.balance.currency)
-        return MoneyTransferDetail(UUID.randomUUID(), origin, destination)
+        return MoneyTransferDetail(origin, destination)
     }
 
-    private fun withDrawMoney(originAccount: Account, transferAmount: Money) : Account {
-        val money = originAccount.balance.amount.minus(transferAmount.amount)
+    private fun withDrawMoney(originAccount: Account, transferAmount: BigDecimal) : Account {
+        val money = originAccount.balance.amount.minus(transferAmount)
         return Account(
             originAccount.accountId,
             Money(money, originAccount.balance.currency)
         )
     }
 
-    private fun transferMoney(destinationAccount: Account, transferAmount: Money, currencyFromOriginAccount: String) : Account {
-        if(destinationAccount.balance.currency != currencyFromOriginAccount){
-            val convertedAmount = moneyConverter.convert(transferAmount, destinationAccount.balance.currency)
+    private fun transferMoney(destinationAccount: Account, transferAmount: BigDecimal, originAccountCurrency: String) : Account {
+        if(destinationAccount.balance.currency != originAccountCurrency){
+            val convertedAmount = moneyConverter
+                .convert(Money(transferAmount, originAccountCurrency), destinationAccount.balance.currency)
             val money = destinationAccount.balance.amount.plus(convertedAmount.amount)
             return Account(destinationAccount.accountId, Money(money, destinationAccount.balance.currency))
         }
         return Account(destinationAccount.accountId,
-            Money(destinationAccount.balance.amount.plus(transferAmount.amount), destinationAccount.balance.currency)
+            Money(destinationAccount.balance.amount.plus(transferAmount), destinationAccount.balance.currency)
         )
 
     }

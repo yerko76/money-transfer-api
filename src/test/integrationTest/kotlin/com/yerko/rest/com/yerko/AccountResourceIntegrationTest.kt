@@ -49,7 +49,8 @@ class AccountResourceIntegrationTest {
 
     @Test
     fun `should return AccountInformation when I pass accountId`() {
-        val accountId = "156f6516-33e3-41b6-9335-abcff54d7003"
+        val accountId = "156f6516-33e3-41b6-9335-abcff54d7001"
+//TODO CLEAN DATABASE BEFORE INSERT
         requestBuilder.url("http://0.0.0.0:8080/api/v1/accounts/${accountId}")
         val response = runBlocking { getAccountInformation() }
 

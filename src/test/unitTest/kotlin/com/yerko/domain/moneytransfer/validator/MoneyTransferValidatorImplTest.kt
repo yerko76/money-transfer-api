@@ -25,7 +25,7 @@ class MoneyTransferValidatorImplTest {
             UUID.randomUUID(),
             Money(BigDecimal.valueOf(100L), "USD")
         )
-        val transferAmount = Money(BigDecimal.valueOf(150L), "USD")
+        val transferAmount = BigDecimal.valueOf(150L)
 
         val exception = Assertions.catchThrowable {
             moneyTransferValidator.validate(originAccount.balance, transferAmount)
@@ -42,7 +42,7 @@ class MoneyTransferValidatorImplTest {
             UUID.randomUUID(),
             Money(BigDecimal.valueOf(100L), "USD")
         )
-        val transferAmount = Money(BigDecimal.valueOf(-50L), "USD")
+        val transferAmount = BigDecimal.valueOf(-50L)
 
         val exception = Assertions.catchThrowable {
             moneyTransferValidator.validate(originAccount.balance, transferAmount)
@@ -59,10 +59,9 @@ class MoneyTransferValidatorImplTest {
             UUID.randomUUID(),
             Money(BigDecimal.valueOf(100L), "USD")
         )
-        val transferAmount = Money(BigDecimal.valueOf(0L), "USD")
 
         val exception = Assertions.catchThrowable {
-            moneyTransferValidator.validate(originAccount.balance, transferAmount)
+            moneyTransferValidator.validate(originAccount.balance, BigDecimal.ZERO)
         }
 
         Assertions.assertThat(exception)
@@ -71,30 +70,14 @@ class MoneyTransferValidatorImplTest {
     }
 
     @Test
-    fun `Should trow MoneyTransferValidationException when transfer amount is in different currency than account currency`() {
-        val originAccount = Account(
-            UUID.randomUUID(),
-            Money(BigDecimal.valueOf(100L), "USD")
-        )
-        val transferAmount = Money(BigDecimal.valueOf(50L), "CLP")
-
-        val exception = Assertions.catchThrowable {
-            moneyTransferValidator.validate(originAccount.balance, transferAmount)
-        }
-
-        Assertions.assertThat(exception)
-            .isInstanceOf(MoneyTransferValidationException::class.java)
-            .hasMessageContaining("Currency from origin account and transferAmount amount are different")
-    }
-
-    @Test
     fun `Should pass validation`() {
         val originAccount = Account(
             UUID.randomUUID(),
             Money(BigDecimal.valueOf(100L), "USD")
         )
-        val transferAmount = Money(BigDecimal.valueOf(50L), "USD")
+        val transferAmount = BigDecimal.valueOf(50L)
 
-        assertThatCode {  moneyTransferValidator.validate(originAccount.balance, transferAmount)}.doesNotThrowAnyException()
+        assertThatCode {  moneyTransferValidator.validate(originAccount.balance, transferAmount)}
+            .doesNotThrowAnyException()
     }
 }

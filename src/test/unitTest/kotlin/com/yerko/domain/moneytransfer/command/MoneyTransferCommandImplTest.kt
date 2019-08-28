@@ -39,12 +39,12 @@ class MoneyTransferCommandImplTest {
             UUID.randomUUID(),
             Money(BigDecimal.valueOf(100L), usdCurrency)
         )
-        val transferAmount = Money(BigDecimal.valueOf(50L), usdCurrency)
+        val transferAmount = BigDecimal.valueOf(50L)
         val moneyTransfer = CreateMoneyTransfer(originAccount, destinationAccount, transferAmount)
 
         val transferDetail = moneyTransferCommand.transferAmount(moneyTransfer)
 
-        verify(exactly = 0) { moneyConverter.convert(transferAmount, usdCurrency) }
+        verify(exactly = 0) { moneyConverter.convert(Money(transferAmount, usdCurrency), usdCurrency) }
         assertThat(transferDetail.originAccount.balance.amount).isEqualTo(BigDecimal.valueOf(50L))
         assertThat(transferDetail.destinationAccount.balance.amount).isEqualTo(BigDecimal.valueOf(150L))
     }
@@ -59,10 +59,10 @@ class MoneyTransferCommandImplTest {
             UUID.randomUUID(),
             Money(BigDecimal.valueOf(10000L), clpCurrency)
         )
-        val transferAmount = Money(BigDecimal.valueOf(50L), usdCurrency)
+        val transferAmount = BigDecimal.valueOf(50L)
         val convertedAmount = Money(BigDecimal.valueOf(35162L), clpCurrency)
         val moneyTransfer = CreateMoneyTransfer(originAccount, destinationAccount, transferAmount)
-        every { moneyConverter.convert(transferAmount, clpCurrency) } returns convertedAmount
+        every { moneyConverter.convert(Money(transferAmount, usdCurrency), clpCurrency) } returns convertedAmount
 
         val transferDetail = moneyTransferCommand.transferAmount(moneyTransfer)
 

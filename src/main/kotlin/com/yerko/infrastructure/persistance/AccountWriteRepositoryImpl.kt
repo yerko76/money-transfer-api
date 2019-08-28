@@ -20,7 +20,7 @@ class AccountWriteRepositoryImpl : AccountWriteRepository {
                     it[currency] = account.moneyDto.currency
                     it[customerId] = account.customerId
                     it[active] = true }
-            return@dbQuery UUID.randomUUID()
+            return@dbQuery account.accountId
         } catch (e: Exception){
             log.error("Unable to create account for customer: {} due to {}", account.customerId, e.message)
             throw UnableToCreateAccountException("Unable to create account for customer: ${account.customerId}")
