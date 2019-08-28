@@ -15,7 +15,7 @@ object MoneyTransactionEntity: Table("money_transaction"){
     val currency: Column<String> = varchar("currency", 3)
 }
 
-data class MoneyTransferDto(val id:Int,
+data class MoneyTransferDto(val id:Int?,
                             val fromAccount: UUID,
                             val toAccount: UUID,
                             val transferredAmount: Money)
