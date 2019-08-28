@@ -1,5 +1,11 @@
 package com.yerko.application.rest.moneytransfer
 
-class MoneyTransferResponse{
+import com.yerko.domain.moneytransfer.Money
+import java.util.*
+
+class MoneyTransferResponse(val transactionId:Int,
+                            val fromAccountId:UUID,
+                            val toAccountId:UUID,
+                            val transferredAmount: Money){
 
 }

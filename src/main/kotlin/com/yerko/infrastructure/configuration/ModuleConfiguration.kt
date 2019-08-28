@@ -26,7 +26,7 @@ object ModulesConfiguration {
     }
 
     private val transferMoneyModule = Kodein.Module("TransferMoneyModule") {
-        bind<TransferMoneyCommandHandler>() with singleton { TransferMoneyCommandHandler(instance()) }
+        bind<TransferMoneyCommandHandler>() with singleton { TransferMoneyCommandHandler(instance(), instance()) }
     }
 
     private val domainModule = Kodein.Module("DomainModule") {

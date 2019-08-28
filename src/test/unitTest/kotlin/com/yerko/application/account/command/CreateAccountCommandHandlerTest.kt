@@ -62,7 +62,7 @@ class CreateAccountCommandHandlerTest {
     fun `Should throw exception when account exists`() {
         val createAccount = CreateAccount(Money(BigDecimal.TEN, "USD"), UUID.randomUUID())
         val accountFromDb = AccountDto(UUID.randomUUID(), MoneyDto(BigDecimal.ZERO,"USD"), UUID.randomUUID(), true)
-        every { runBlocking { accountReadRepository.findByIdCustomerId(any()) } } returns accountFromDb
+        every { runBlocking { accountReadRepository.findByIdCustomerId(createAccount.customerId) } } returns accountFromDb
 
         val exception = Assertions.catchThrowable {
             createAccountCommand.create(createAccount)
