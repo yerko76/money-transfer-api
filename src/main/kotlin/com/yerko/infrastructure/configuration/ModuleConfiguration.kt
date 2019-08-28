@@ -1,9 +1,11 @@
 package com.yerko.infrastructure.configuration
 
 import com.yerko.application.account.command.CreateAccountCommandHandler
+import com.yerko.application.account.command.UpdateAccountCommandHandler
 import com.yerko.application.account.entity.AccountReadRepository
 import com.yerko.application.account.entity.AccountWriteRepository
 import com.yerko.application.account.query.AccountQueryHandler
+import com.yerko.application.moneytransfer.command.TransferMoneyCommandHandler
 import com.yerko.application.rest.HealthCheckResource
 import com.yerko.application.rest.account.AccountResource
 import com.yerko.domain.exchangerate.MoneyConverter
@@ -23,6 +25,10 @@ object ModulesConfiguration {
         bind() from singleton { HealthCheckResource() }
     }
 
+    private val transferMoneyModule = Kodein.Module("TransferMoneyModule") {
+        bind<TransferMoneyCommandHandler>() with singleton { TransferMoneyCommandHandler(instance()) }
+    }
+
     private val domainModule = Kodein.Module("DomainModule") {
         bind<WithDrawMoneyCommand>() with singleton { WithdrawMoneyCommandImpl() }
         bind<ExchangeRateQuery>() with singleton { ExchangeRateQueryImpl() }
@@ -37,11 +43,13 @@ object ModulesConfiguration {
         bind() from singleton { AccountQueryHandler(instance()) }
         bind() from singleton { AccountResource(instance(), instance()) }
         bind() from singleton { CreateAccountCommandHandler(instance(), instance()) }
+        bind<UpdateAccountCommandHandler>() with singleton { UpdateAccountCommandHandler(instance()) }
     }
 
     internal val kodein = Kodein {
         import(healthCheckModule)
         import(accountResourceModule)
+        import(transferMoneyModule)
         import(domainModule)
     }
 }

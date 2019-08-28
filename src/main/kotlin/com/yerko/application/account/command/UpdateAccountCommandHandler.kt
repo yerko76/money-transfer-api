@@ -14,7 +14,7 @@ class UpdateAccountCommandHandler(private val accountWriteRepository: AccountWri
         val account = AccountDto(
             updateAccount.accountId,
             MoneyDto(updateAccount.balance.amount, updateAccount.balance.currency),
-            null,
+            UUID.randomUUID(),
             null
         )
         return runBlocking { accountWriteRepository.update(account) }

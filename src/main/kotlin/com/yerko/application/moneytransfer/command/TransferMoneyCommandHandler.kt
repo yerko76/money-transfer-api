@@ -1,3 +1,7 @@
 package com.yerko.application.moneytransfer.command
 
-class TransferMoneyCommandHandler
+import com.yerko.application.account.query.AccountQueryHandler
+
+class TransferMoneyCommandHandler(private val accountQueryHandler: AccountQueryHandler){
+
+}

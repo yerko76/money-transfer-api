@@ -16,7 +16,7 @@ class AccountWriteRepositoryImpl : AccountWriteRepository {
     override suspend fun update(account: AccountDto): UUID  = dbQuery {
         try{
             AccountEntity.update ({ AccountEntity.accountId eq account.accountId }) {
-                it[AccountEntity.balance] = account.moneyDto.amount
+                it[balance] = account.moneyDto.amount
             }
             return@dbQuery account.accountId
         } catch (e: Exception){
