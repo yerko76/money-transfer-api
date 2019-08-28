@@ -36,7 +36,7 @@ class TransferMoneyCommandHandlerTest {
         val createMoneyTransfer = CreateMoneyTransferRequest(originAccount, destinationAccount, BigDecimal.TEN)
         val firstAccount = AccountDto(UUID.randomUUID(), MoneyDto(BigDecimal.TEN,"USD"), UUID.randomUUID(), true)
         val second = AccountDto(UUID.randomUUID(), MoneyDto(BigDecimal.TEN,"USD"), UUID.randomUUID(), true)
-        val detail = MoneyTransferDetail(convertToAccount(firstAccount), convertToAccount(second))
+        val detail = MoneyTransferDetail(convertToAccount(firstAccount), convertToAccount(second),Money(BigDecimal.TEN,"USD"))
         every { runBlocking { accountQueryHandler.findById(any()) } } returns firstAccount
         every { runBlocking { accountQueryHandler.findById(any()) } } returns second
         every { moneyTransferCommand.transferAmount(any()) } returns detail
