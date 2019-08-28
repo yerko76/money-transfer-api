@@ -16,6 +16,8 @@ import com.yerko.domain.exchangerate.MoneyConverter
 import com.yerko.domain.exchangerate.MoneyConverterImpl
 import com.yerko.domain.exchangerate.query.ExchangeRateQuery
 import com.yerko.domain.moneytransfer.command.*
+import com.yerko.domain.moneytransfer.validator.MoneyTransferValidator
+import com.yerko.domain.moneytransfer.validator.MoneyTransferValidatorImpl
 import com.yerko.infrastructure.client.ExchangeRateQueryImpl
 import com.yerko.infrastructure.persistance.AccountReadRepositoryImpl
 import com.yerko.infrastructure.persistance.AccountWriteRepositoryImpl
@@ -32,6 +34,7 @@ object ModulesConfiguration {
 
     private val moneyTransferModule = Kodein.Module("TransferMoneyModule") {
         bind<MoneyTransferWriteRepository>() with singleton { MoneyTransferWriteRepositoryImpl() }
+        bind<MoneyTransferValidator>() with singleton { MoneyTransferValidatorImpl() }
         bind<MoneyTransferService>() with singleton { MoneyTransferServiceImpl(instance(), instance()) }
         bind<MoneyTransferCommandHandler>() with singleton { MoneyTransferCommandHandler(instance(), instance(), instance()) }
         bind<MoneyTransferServiceImpl>() with singleton { MoneyTransferServiceImpl(instance(), instance()) }

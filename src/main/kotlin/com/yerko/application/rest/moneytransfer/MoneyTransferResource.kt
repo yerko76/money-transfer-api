@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory
 class MoneyTransferResource(private val moneyMoneyTransferCommandHandler: MoneyTransferCommandHandler) {
     private val log = LoggerFactory.getLogger(MoneyTransferResource::class.java)
 
-    suspend fun create(context: ApplicationCall) {
+    suspend fun transfer(context: ApplicationCall) {
         val createAccountRequest = context.receive<CreateMoneyTransferRequest>()
         log.info("Request to transfer money from account {} to account {}",
             createAccountRequest.fromAccountId,createAccountRequest.toAccountId)
