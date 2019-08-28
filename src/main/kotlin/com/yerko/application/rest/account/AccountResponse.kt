@@ -1,7 +1,7 @@
 package com.yerko.application.rest.account
 
-import com.yerko.domain.moneytransfer.Money
+import com.yerko.application.account.entity.AccountDto
 import java.util.*
 
-data class AccountInformationResponse(val accountId: UUID, val balance: Money, val customerId: String)
+data class AccountInformationResponse(val accountInformation: AccountDto)
 data class AccountCreatedResponse(val accountId: UUID)

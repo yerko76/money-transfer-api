@@ -27,7 +27,7 @@ class AccountResource(private val accountCommand: CreateAccountCommand,
         log.info("Getting account information for account: {}", accountId)
         val accountInformation = accountQuery.findById(UUID.fromString(accountId))
         log.info("Returning account information for customer {}", accountInformation.customerId)
-        context.respond(HttpStatusCode.OK, accountInformation)
+        context.respond(HttpStatusCode.OK, AccountInformationResponse(accountInformation))
     }
 
 }

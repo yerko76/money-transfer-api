@@ -2,10 +2,10 @@ POST http://{{host}}/api/v1/accounts
 Content-Type: application/json
 
 {
-  "customerId": "some-customer-id",
+  "customerId": "156f6516-33e3-41b6-9335-bbbff54d9098",
   "balance": {
     "currency":"USD",
-    "amount":100
+    "amount":1000
   }
 }
 ###

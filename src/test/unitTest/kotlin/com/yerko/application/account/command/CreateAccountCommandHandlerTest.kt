@@ -38,17 +38,17 @@ class CreateAccountCommandHandlerTest {
     }
 
     @Test
-    fun `Should throw exception when account already exist`() {
+    fun `Should throw exception when account is not generated`() {
         val createAccount = CreateAccount(Money(BigDecimal.TEN, "USD"), UUID.randomUUID())
-        every { runBlocking { repository.save(any()) } } throws RuntimeException("Some persistance error")
+        every { runBlocking { repository.save(any()) } } throws UnableToCreateAccountException("Unable to create account for customer: ${createAccount.customerId}")
 
         val exception = Assertions.catchThrowable {
             createAccountCommand.create(createAccount)
         }
 
         assertThat(exception)
-            .isInstanceOf(AccountAlreadyExistException::class.java)
-            .hasMessageContaining("Account already exists for customer: ${createAccount.customerId}")
+            .isInstanceOf(UnableToCreateAccountException::class.java)
+            .hasMessageContaining("Unable to create account for customer: ${createAccount.customerId}")
     }
 
 }

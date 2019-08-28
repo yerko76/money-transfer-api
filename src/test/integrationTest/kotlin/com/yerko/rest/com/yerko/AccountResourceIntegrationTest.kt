@@ -53,7 +53,11 @@ class AccountResourceIntegrationTest {
         requestBuilder.url("http://0.0.0.0:8080/api/v1/accounts/${accountId}")
         val response = runBlocking { getAccountInformation() }
 
-        assertThat(response.accountId).isNotNull()
+        assertThat(response.accountInformation.accountId).isEqualTo(UUID.fromString(accountId))
+        assertThat(response.accountInformation.active).isTrue()
+        assertThat(response.accountInformation.customerId).isNotNull()
+        assertThat(response.accountInformation.moneyDto.amount).isGreaterThan(BigDecimal.ZERO)
+        assertThat(response.accountInformation.moneyDto.currency).isNotNull()
     }
 
     private suspend fun getAccountInformation(): AccountInformationResponse {
