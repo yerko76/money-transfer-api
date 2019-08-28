@@ -5,7 +5,7 @@ Content-Type: application/json
   "customerId": "156f6516-33e3-41b6-9335-bbbff54d9098",
   "balance": {
     "currency":"USD",
-    "amount":1000
+    "amount":7000
   }
 }
 ###

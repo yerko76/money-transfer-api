@@ -1,6 +1,9 @@
 package com.yerko.application.account.command
 
+import com.yerko.application.account.entity.AccountDto
+import com.yerko.application.account.entity.AccountReadRepository
 import com.yerko.application.account.entity.AccountWriteRepository
+import com.yerko.application.account.entity.MoneyDto
 import com.yerko.domain.account.command.CreateAccount
 import com.yerko.domain.moneytransfer.Money
 import io.mockk.every
@@ -17,11 +20,13 @@ class CreateAccountCommandHandlerTest {
 
     private lateinit var createAccountCommand: CreateAccountCommandHandler
     private lateinit var repository: AccountWriteRepository
+    private lateinit var accountReadRepository: AccountReadRepository
 
     @BeforeEach
     fun setUp() {
         repository = mockk()
-        createAccountCommand = CreateAccountCommandHandler(repository)
+        accountReadRepository = mockk()
+        createAccountCommand = CreateAccountCommandHandler(repository, accountReadRepository)
     }
 
     @Test
@@ -30,6 +35,7 @@ class CreateAccountCommandHandlerTest {
         val createAccount = CreateAccount(
             Money(BigDecimal.TEN, "USD"),
             UUID.randomUUID())
+        every { runBlocking { accountReadRepository.findByIdCustomerId(any()) } } returns null
         every { runBlocking{ repository.save(any()) } } returns expectedAccountId
 
         val response = createAccountCommand.create(createAccount)
@@ -40,6 +46,7 @@ class CreateAccountCommandHandlerTest {
     @Test
     fun `Should throw exception when account is not generated`() {
         val createAccount = CreateAccount(Money(BigDecimal.TEN, "USD"), UUID.randomUUID())
+        every { runBlocking { accountReadRepository.findByIdCustomerId(any()) } } returns null
         every { runBlocking { repository.save(any()) } } throws UnableToCreateAccountException("Unable to create account for customer: ${createAccount.customerId}")
 
         val exception = Assertions.catchThrowable {
@@ -49,6 +56,21 @@ class CreateAccountCommandHandlerTest {
         assertThat(exception)
             .isInstanceOf(UnableToCreateAccountException::class.java)
             .hasMessageContaining("Unable to create account for customer: ${createAccount.customerId}")
+    }
+
+    @Test
+    fun `Should throw exception when account exists`() {
+        val createAccount = CreateAccount(Money(BigDecimal.TEN, "USD"), UUID.randomUUID())
+        val accountFromDb = AccountDto(UUID.randomUUID(), MoneyDto(BigDecimal.ZERO,"USD"), UUID.randomUUID(), true)
+        every { runBlocking { accountReadRepository.findByIdCustomerId(any()) } } returns accountFromDb
+
+        val exception = Assertions.catchThrowable {
+            createAccountCommand.create(createAccount)
+        }
+
+        assertThat(exception)
+            .isInstanceOf(UnableToCreateAccountException::class.java)
+            .hasMessageContaining("Unable to create account for customer: ${createAccount.customerId} due to account already exists")
     }
 
 }

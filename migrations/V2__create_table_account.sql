@@ -10,4 +10,4 @@ create TABLE account (
 
 insert into account (account_id,customer_id,balance, currency, active) values ('156f6516-33e3-41b6-9335-abcff54d7000','156f6516-33e3-41b6-9335-bbbff54d9094',1000,'USD',true);
 insert into account (account_id,customer_id,balance, currency, active) values ('156f6516-33e3-41b6-9335-abcff54d7001','156f6516-33e3-41b6-9335-bbbff54d9095',2000,'USD',true);
-insert into account (account_id,customer_id,balance, currency, active) values ('156f6516-33e3-41b6-9335-abcff54d7003','156f6516-33e3-41b6-9335-bbbff54d9096',2000,'USD',true);
+insert into account (account_id,customer_id,balance, currency, active) values ('156f6516-33e3-41b6-9335-abcff54d7003','156f6516-33e3-41b6-9335-bbbff54d9096',2000,'USD',false);

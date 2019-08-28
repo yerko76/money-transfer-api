@@ -1,5 +1,5 @@
 package com.yerko.application.rest.account
-import com.yerko.application.account.query.AccountQuery
+import com.yerko.application.account.query.AccountQueryHandler
 import com.yerko.domain.account.command.CreateAccount
 import com.yerko.domain.account.command.CreateAccountCommand
 import io.ktor.application.ApplicationCall
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
 import java.util.*
 
 class AccountResource(private val accountCommand: CreateAccountCommand,
-                      private val accountQuery: AccountQuery) {
+                      private val accountQueryHandler: AccountQueryHandler) {
     private val log = LoggerFactory.getLogger(AccountResource::class.java)
 
     suspend fun create(context: ApplicationCall) {
@@ -25,7 +25,7 @@ class AccountResource(private val accountCommand: CreateAccountCommand,
     suspend fun get(context: ApplicationCall) {
         val accountId = context.parameters["account-id"]
         log.info("Getting account information for account: {}", accountId)
-        val accountInformation = accountQuery.findById(UUID.fromString(accountId))
+        val accountInformation = accountQueryHandler.findById(UUID.fromString(accountId))
         log.info("Returning account information for customer {}", accountInformation.customerId)
         context.respond(HttpStatusCode.OK, AccountInformationResponse(accountInformation))
     }

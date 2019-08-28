@@ -4,5 +4,6 @@ import com.yerko.application.account.entity.AccountDto
 import java.util.*
 
 interface AccountQuery {
-    fun findById(accountId:UUID): AccountDto?
+    suspend fun findById(accountId:UUID): AccountDto?
+    suspend fun findByIdCustomerId(customerId:UUID): AccountDto?
 }

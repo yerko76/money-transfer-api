@@ -3,10 +3,11 @@ package com.yerko.infrastructure.configuration
 import com.yerko.application.account.command.CreateAccountCommandHandler
 import com.yerko.application.account.entity.AccountReadRepository
 import com.yerko.application.account.entity.AccountWriteRepository
-import com.yerko.application.account.query.AccountQuery
+import com.yerko.application.account.query.AccountQueryHandler
 import com.yerko.application.rest.HealthCheckResource
 import com.yerko.application.rest.account.AccountResource
-import com.yerko.infrastructure.persistance.AccountRepository
+import com.yerko.infrastructure.persistance.AccountReadRepositoryImpl
+import com.yerko.infrastructure.persistance.AccountWriteRepositoryImpl
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -18,11 +19,11 @@ object ModulesConfiguration {
     }
 
     private val accountResourceModule = Kodein.Module("AccountModule") {
-        bind<AccountWriteRepository>() with singleton { AccountRepository() }
-        bind<AccountReadRepository>() with singleton { AccountRepository() }
-        bind() from singleton { AccountQuery(instance()) }
+        bind<AccountWriteRepository>() with singleton { AccountWriteRepositoryImpl() }
+        bind<AccountReadRepository>() with singleton { AccountReadRepositoryImpl() }
+        bind() from singleton { AccountQueryHandler(instance()) }
         bind() from singleton { AccountResource(instance(), instance()) }
-        bind() from singleton { CreateAccountCommandHandler(instance()) }
+        bind() from singleton { CreateAccountCommandHandler(instance(), instance()) }
     }
 
     internal val kodein = Kodein {
