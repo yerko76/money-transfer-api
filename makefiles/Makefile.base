@@ -1,8 +1,10 @@
 assemble:
-	./gradlew clean assemble $(ARG)
+	./gradlew clean shadowJar
 
 clean:
 	./gradlew clean
 
-run:
+run-local:
 	source db-credentials && ./gradlew run
+
+

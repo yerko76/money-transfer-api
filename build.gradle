@@ -13,6 +13,7 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "${kotlin_version}"
     id "com.gorylenko.gradle-git-properties" version "2.1.0"
     id "org.flywaydb.flyway" version "5.2.4"
+    id "com.github.johnrengelman.shadow" version "5.1.0"
     id "application"
 }
 
@@ -35,4 +36,8 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+shadowJar {
+    mergeServiceFiles()
 }
