@@ -2,7 +2,6 @@ package com.yerko.infrastructure.configuration.routers
 
 import com.yerko.application.rest.HealthCheckResource
 import com.yerko.application.rest.account.AccountResource
-import com.yerko.application.rest.moneytransfer.MoneyTransferResource
 import io.ktor.routing.Routing
 import io.ktor.routing.get
 import io.ktor.routing.post
@@ -21,11 +20,8 @@ fun Routing.accountResourceRoutes(accountResource: AccountResource){
     route("/api/v1/accounts/{account-id}") {
         get { accountResource.get(this.context) }
     }
-}
-
-fun Routing.moneyTansferResourceRoutes(moneyTransferResource: MoneyTransferResource){
-    route("/api/v1/money/transfer"){
-        post { moneyTransferResource.transfer(this.context) }
+    route("/api/v1/accounts/{account-id}/transfer"){
+        post { accountResource.transfer(this.context) }
     }
-
 }
+

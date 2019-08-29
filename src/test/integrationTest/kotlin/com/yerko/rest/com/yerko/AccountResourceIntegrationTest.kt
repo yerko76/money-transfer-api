@@ -23,6 +23,7 @@ import java.util.*
 class AccountResourceIntegrationTest {
     private lateinit var requestBuilder: HttpRequestBuilder
     private lateinit var httpClient: HttpClient
+    private val appUrl= "http://0.0.0.0:8080"
 
     @BeforeEach
     internal fun setUp() {
@@ -37,9 +38,10 @@ class AccountResourceIntegrationTest {
 
     @Test
     fun `should return AccountId when I open a new account`() {
+        //TODO CLEAN DATABASE BEFORE INSERT
         val existingCustomerInDb = "156f6516-33e3-41b6-9335-bbbff54d9098"
         val account = CreateAccountRequest(Money(BigDecimal(100L), "USD"), UUID.fromString(existingCustomerInDb))
-        requestBuilder.url("http://0.0.0.0:8080/api/v1/accounts")
+        requestBuilder.url("${appUrl}/api/v1/accounts")
         requestBuilder.body = account
 
         val response = runBlocking { createAccount() }
@@ -50,8 +52,7 @@ class AccountResourceIntegrationTest {
     @Test
     fun `should return AccountInformation when I pass accountId`() {
         val accountId = "156f6516-33e3-41b6-9335-abcff54d7001"
-//TODO CLEAN DATABASE BEFORE INSERT
-        requestBuilder.url("http://0.0.0.0:8080/api/v1/accounts/${accountId}")
+        requestBuilder.url("${appUrl}/api/v1/accounts/${accountId}")
         val response = runBlocking { getAccountInformation() }
 
         assertThat(response.accountInformation.accountId).isEqualTo(UUID.fromString(accountId))
@@ -60,6 +61,20 @@ class AccountResourceIntegrationTest {
         assertThat(response.accountInformation.moneyDto.amount).isGreaterThan(BigDecimal.ZERO)
         assertThat(response.accountInformation.moneyDto.currency).isNotNull()
     }
+
+//    @Test
+//    fun `should transfer money`() {
+//        val fromAccount = "156f6516-33e3-41b6-9335-abcff54d7003"
+//        val toAccount = "156f6516-33e3-41b6-9335-abcff54d7003"
+//        requestBuilder.url("${appUrl}/api/v1/accounts/account/${fromAccount}/transfer")
+//        val response = runBlocking { getAccountInformation() }
+//
+//        assertThat(response.accountInformation.accountId).isEqualTo(UUID.fromString(accountId))
+//        assertThat(response.accountInformation.active).isTrue()
+//        assertThat(response.accountInformation.customerId).isNotNull()
+//        assertThat(response.accountInformation.moneyDto.amount).isGreaterThan(BigDecimal.ZERO)
+//        assertThat(response.accountInformation.moneyDto.currency).isNotNull()
+//    }
 
     private suspend fun getAccountInformation(): AccountInformationResponse {
         val response = httpClient.get<AccountInformationResponse>(requestBuilder)

@@ -38,7 +38,6 @@ object ModulesConfiguration {
         bind<MoneyTransferService>() with singleton { MoneyTransferServiceImpl(instance(), instance()) }
         bind<MoneyTransferCommandHandler>() with singleton { MoneyTransferCommandHandler(instance(), instance(), instance()) }
         bind<MoneyTransferServiceImpl>() with singleton { MoneyTransferServiceImpl(instance(), instance()) }
-        bind() from singleton { MoneyTransferResource(instance()) }
     }
 
     private val domainModule = Kodein.Module("DomainModule") {
@@ -53,7 +52,7 @@ object ModulesConfiguration {
         bind<AccountWriteRepository>() with singleton { AccountWriteRepositoryImpl() }
         bind<AccountReadRepository>() with singleton { AccountReadRepositoryImpl() }
         bind() from singleton { AccountQueryHandler(instance()) }
-        bind() from singleton { AccountResource(instance(), instance()) }
+        bind() from singleton { AccountResource(instance(), instance(), instance()) }
         bind() from singleton { CreateAccountCommandHandler(instance(), instance()) }
         bind<UpdateAccountCommandHandler>() with singleton { UpdateAccountCommandHandler(instance()) }
     }
