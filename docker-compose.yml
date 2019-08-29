@@ -1,30 +1,44 @@
 version: '3.1'
+networks:
+  bridge:
+    driver: bridge
+
 services:
   money-transfer:
+    container_name: money-transfer
     build:
       context: .
       dockerfile: docker/Dockerfile
+    image: money-transfer:latest
     ports:
       - "8080:8080"
     environment:
-      DB_URL: jdbc:postgresql://money-transfer-db:54321/payment
+      DB_HOST: money-transfer-db
+      DB_PORT: 54321
       DB_USER: postgres
       DB_PASSWORD: postgres
+      DB_DATABASE: payment
     depends_on:
       - money-transfer-db
-      - exchange-service
+      - exchange-rate-service
+    networks:
+      - bridge
 
   money-transfer-db:
+    container_name: money-transfer-db
     image: postgres:10.5
     restart: always
     ports:
-      - "54321:54321"
+      - "54321:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: payment
+    networks:
+      - bridge
 
-  exchange-service:
+  exchange-rate-service:
+    container_name: exchange-rate-service
     image: sandokandias/stubby4j-docker
     ports:
       - "8882:8882"
@@ -32,4 +46,6 @@ services:
       STUBBY_PORT: 8882
     volumes:
       - ./stubs/stubby.yml:/usr/local/stubby.yml
+    networks:
+      - bridge
 

@@ -1,7 +1,11 @@
+def host = System.getenv('DB_HOST')
+def db = System.getenv('DB_DATABASE')
+def port = System.getenv('DB_PORT')
+
 flyway {
-    url = System.getenv('DB_URL')
     user = System.getenv('DB_USER')
     password = System.getenv('DB_PASSWORD')
+    url = "jdbc:postgresql://${host}:${port}/${db}"
     baselineOnMigrate=true
     locations = ["filesystem:./migrations"]
 }

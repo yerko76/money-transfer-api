@@ -1,7 +1,7 @@
-#run-docker: ## Builds, (re)creates, starts, and attaches to container for APP
-#	make assemble && docker-compose up --force-recreate -d $(APP_NAME)
+build:
+	make assemble && docker-compose build
 run-docker: ## Builds, (re)creates, starts, and attaches to container for APP
-	docker-compose up --force-recreate -d $(APP_NAME)
+	make build && docker-compose up --force-recreate -d $(APP_NAME)
 
 remove-docker: ## Stops and removes the APP container
 	docker-compose rm --stop --force $(APP_NAME)

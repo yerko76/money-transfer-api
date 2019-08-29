@@ -7,4 +7,8 @@ clean:
 run-local:
 	source db-credentials && ./gradlew run
 
-
+export-containers-host: export-db-container-host export-stubby-container-host
+export-db-container-host:
+	sudo sh -c "echo '127.0.0.1      money-transfer-db ' >> /etc/hosts"
+export-stubby-container-host:
+	sudo sh -c "echo '127.0.0.1      exchange-rate-service ' >> /etc/hosts"
