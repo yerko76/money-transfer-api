@@ -1,0 +1,25 @@
+= Money Transfer API
+ifdef::env-github[:outfilesuffix: .adoc]
+
+This repository hosts a money transfer api between 2 accounts.
+
+== TechStack
+. Kotlin 1.3.41 (https://kotlinlang.org/docs/reference/)
+. Routes and server with Ktor (https://ktor.io)
+. Sql operations with Exposed (https://github.com/JetBrains/Exposed)
+. Database with PosgresSql(https://www.postgresql.org/)
+. Dependency Injection with KodeIn (https://kodein.org/di)
+. Testing with Junit5 (https://junit.org/junit5/docs/current/user-guide/)
+. Mock lib with Mockk (https://github.com/mockk/mockk)
+
+== General Usage Instructions
+
+Ensure that GNU Make is installed.
+
+. Start All Services
+
+ $ make start-all
+
+. Execute flyway migrations
+
+ $ make db-migrate
