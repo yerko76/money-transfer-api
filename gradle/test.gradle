@@ -1,3 +1,5 @@
+apply plugin: 'jacoco'
+
 tasks.withType(Test){
     testLogging {
         exceptionFormat "full"
@@ -17,4 +19,14 @@ task integrationTest(type: Test){
     testClassesDirs = sourceSets.integrationTest.output
     classpath = sourceSets.integrationTest.runtimeClasspath
     useJUnitPlatform()
+}
+
+jacoco {
+    toolVersion = "0.8.4"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
 }
