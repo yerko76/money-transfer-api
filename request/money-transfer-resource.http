@@ -4,7 +4,7 @@ Content-Type: application/json
 {
   "originId": "156f6516-33e3-41b6-9335-abcff54d7000",
   "destinationId": "156f6516-33e3-41b6-9335-abcff54d7001",
-  "amount": 50
+  "amount": 100
 }
 
 ###

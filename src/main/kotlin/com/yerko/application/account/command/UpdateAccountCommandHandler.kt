@@ -5,19 +5,18 @@ import com.yerko.application.account.entity.AccountWriteRepository
 import com.yerko.application.account.entity.MoneyDto
 import com.yerko.domain.account.command.UpdateAccount
 import com.yerko.domain.account.command.UpdateAccountCommand
-import kotlinx.coroutines.runBlocking
 import java.util.*
 
 class UpdateAccountCommandHandler(private val accountWriteRepository: AccountWriteRepository) : UpdateAccountCommand{
 
-    override fun update(updateAccount: UpdateAccount): UUID {
+    override suspend fun update(updateAccount: UpdateAccount): UUID {
         val account = AccountDto(
             updateAccount.accountId,
             MoneyDto(updateAccount.balance.amount, updateAccount.balance.currency),
             UUID.randomUUID(),
             null
         )
-        return runBlocking { accountWriteRepository.update(account) }
+        return accountWriteRepository.update(account)
     }
 
 }

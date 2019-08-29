@@ -29,7 +29,7 @@ class MoneyTransferServiceImpl(private val updateAccountCommandHandler: UpdateAc
             )!!
     }
 
-    private fun updateAccountBalance(account: Account) : UUID {
+    private suspend fun updateAccountBalance(account: Account) : UUID {
         return updateAccountCommandHandler.update(
             UpdateAccount(
                 account.accountId,

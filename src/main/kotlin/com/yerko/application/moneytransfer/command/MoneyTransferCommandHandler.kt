@@ -9,7 +9,6 @@ import com.yerko.domain.moneytransfer.CreateMoneyTransfer
 import com.yerko.domain.moneytransfer.Money
 import com.yerko.domain.moneytransfer.MoneyTransferDetail
 import com.yerko.domain.moneytransfer.command.MoneyTransferCommand
-import kotlinx.coroutines.runBlocking
 
 class MoneyTransferCommandHandler(private val accountQueryHandler: AccountQueryHandler,
                                   private val moneyTransferCommand: MoneyTransferCommand,
@@ -31,9 +30,9 @@ class MoneyTransferCommandHandler(private val accountQueryHandler: AccountQueryH
         return moneyTransferService.saveTransaction(moneyTransferDetail = transferResponse)
     }
 
-    private fun prepareTransaction(createMoneyTransferRequest: CreateMoneyTransferRequest): CreateMoneyTransfer {
-        val fromAccount = runBlocking { accountQueryHandler.findById(createMoneyTransferRequest.fromAccountId) }
-        val toAccount = runBlocking { accountQueryHandler.findById(createMoneyTransferRequest.toAccountId) }
+    private suspend fun prepareTransaction(createMoneyTransferRequest: CreateMoneyTransferRequest): CreateMoneyTransfer {
+        val fromAccount = accountQueryHandler.findById(createMoneyTransferRequest.fromAccountId)
+        val toAccount = accountQueryHandler.findById(createMoneyTransferRequest.toAccountId)
         return CreateMoneyTransfer(convertToAccount(fromAccount), convertToAccount(toAccount), createMoneyTransferRequest.amount)
     }
 

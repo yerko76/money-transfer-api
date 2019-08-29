@@ -38,9 +38,12 @@ class CreateAccountCommandHandlerTest {
         every { runBlocking { accountReadRepository.findByIdCustomerId(any()) } } returns null
         every { runBlocking{ repository.save(any()) } } returns expectedAccountId
 
-        val response = createAccountCommand.create(createAccount)
+       runBlocking {
+           val response = createAccountCommand.create(createAccount)
 
-        assertThat(response).isEqualTo(expectedAccountId    )
+           assertThat(response).isEqualTo(expectedAccountId)
+       }
+
     }
 
     @Test
@@ -50,7 +53,7 @@ class CreateAccountCommandHandlerTest {
         every { runBlocking { repository.save(any()) } } throws UnableToCreateAccountException("Unable to create account for customer: ${createAccount.customerId}")
 
         val exception = Assertions.catchThrowable {
-            createAccountCommand.create(createAccount)
+            runBlocking { createAccountCommand.create(createAccount)  }
         }
 
         assertThat(exception)
@@ -65,7 +68,7 @@ class CreateAccountCommandHandlerTest {
         every { runBlocking { accountReadRepository.findByIdCustomerId(createAccount.customerId) } } returns accountFromDb
 
         val exception = Assertions.catchThrowable {
-            createAccountCommand.create(createAccount)
+            runBlocking { createAccountCommand.create(createAccount) }
         }
 
         assertThat(exception)
