@@ -8,3 +8,16 @@ remove-docker: ## Stops and removes the APP container
 
 stop-docker: ## Stops running  APP container without removing it
 	docker-compose stop $(APP_NAME)
+
+docker-build-image:
+	docker-compose build
+
+##Exchange Stubs
+run-stubby-docker: ## Builds, (re)creates, starts, and attaches to container for EXCHANGE_STUBS
+	docker-compose up --force-recreate -d $(EXCHANGE_STUBS)
+
+remove-stubby-docker: ## Stops and removes the EXCHANGE_STUBS container
+	docker-compose rm --stop --force $(EXCHANGE_STUBS)
+
+stop-stubby-docker: ## Stops running  EXCHANGE_STUBS container without removing it
+	docker-compose stop $(EXCHANGE_STUBS)

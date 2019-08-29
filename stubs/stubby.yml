@@ -1,0 +1,17 @@
+-  request:
+     method: GET
+     url: /exchangeratesapi/v1/rates
+     query:
+       from: "^USD$"
+       to: "^CLP$"
+
+   response:
+     status: 200
+     headers:
+       content-type: application/json
+     body: >
+       {
+          "baseCurrency": "USD",
+          "date": "2019-08-28",
+           "rate": { "currency":"USD","rate": 0.90823 }
+        }

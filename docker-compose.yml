@@ -12,6 +12,7 @@ services:
       DB_PASSWORD: postgres
     depends_on:
       - money-transfer-db
+      - exchange-service
 
   money-transfer-db:
     image: postgres:10.5
@@ -22,4 +23,13 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: payment
+
+  exchange-service:
+    image: sandokandias/stubby4j-docker
+    ports:
+      - "8882:8882"
+    environment:
+      STUBBY_PORT: 8882
+    volumes:
+      - ./stubs/stubby.yml:/usr/local/stubby.yml
 
