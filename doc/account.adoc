@@ -65,7 +65,7 @@ POST /api/v1/accounts/{ACCOUNT_ID}/transfer
 [source,json]
 ----
 {
-  "destinationId": "156f6516-33e3-41b6-9335-abcff54d7001",
+  "toAccountId": "156f6516-33e3-41b6-9335-abcff54d7001",
   "amount": 100
 }
 ----

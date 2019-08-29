@@ -14,11 +14,11 @@ Content-Type: application/json
 
 ###
 
-POST http://{{host}}/api/v1/accounts/{account_id}/transfer
+POST http://{{host}}/api/v1/accounts/156f6516-33e3-41b6-9335-abcff54d7000/transfer
 Content-Type: application/json
 
 {
-  "destinationId": "156f6516-33e3-41b6-9335-abcff54d7001",
+  "toAccountId": "156f6516-33e3-41b6-9335-abcff54d7001",
   "amount": 100
 }
 
