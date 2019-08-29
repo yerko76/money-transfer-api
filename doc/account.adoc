@@ -59,7 +59,7 @@ POST /api/v1/accounts
 
 Sample JSON request to transfer amount between 2 accounts
 ----
-POST /api/v1/accounts/{account_id}/transfer
+POST /api/v1/accounts/{ACCOUNT_ID}/transfer
 ----
 
 [source,json]
