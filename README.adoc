@@ -34,8 +34,6 @@ Ensure that GNU Make is installed.
 
 == Testing
 
-Ensure that GNU Make is installed.
-
 . Unit Test
 
  $ make unit-test
