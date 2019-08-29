@@ -5,10 +5,8 @@ This repository hosts a money transfer api.
 
 =  Money Transfer Api documentation
 
-. Account Resource: include::doc/account.adoc[]
-. Money Transfer Resource: include::doc/money-transfer.adoc[]
-
-
+include::doc/account.adoc[]
+include::doc/money-transfer.adoc[]
 
 == TechStack
 . Kotlin 1.3.41 (https://kotlinlang.org/docs/reference/)
