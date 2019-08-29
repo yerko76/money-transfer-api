@@ -32,3 +32,15 @@ Ensure that GNU Make is installed.
 . Stop All Services
 
  $ make stop-all
+
+== Testing
+
+Ensure that GNU Make is installed.
+
+. Unit Test
+
+ $ make unit-test
+
+. Integration Test
+
+ $ make integration-test

@@ -12,7 +12,6 @@
 |POST
 |Creates an account
 
-|URL|HTTP METHOD|METHOD DESCRIPTION
 |/api/v1/accounts/{account_id}/transfer
 |POST
 |transfer amount between 2 accounts
@@ -24,6 +23,7 @@ Sample JSON request Get Account Information
 ----
 GET /api/v1/accounts/{ACCOUNT_ID}
 ----
+Sample JSON response Account Information
 
 [source,json]
 ----
