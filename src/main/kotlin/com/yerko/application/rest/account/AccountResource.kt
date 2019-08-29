@@ -37,11 +37,12 @@ class AccountResource(private val accountCommand: CreateAccountCommand,
 
     suspend fun transfer(context: ApplicationCall) {
         val accountId = UUID.fromString(context.parameters["account-id"])
-        val createAccountRequest = context.receive<CreateMoneyTransferRequest>()
+        val request = context.receive<CreateMoneyTransferRequest>()
         if (accountId != null) {
-            addLogForMoneyTransferRequest(accountId, createAccountRequest.toAccountId)
+            addLogForMoneyTransferRequest(accountId, request.toAccountId)
         }
-        val response = moneyMoneyTransferCommandHandler.transferMoney(accountId, createAccountRequest)
+        val response = moneyMoneyTransferCommandHandler.transferMoney(
+            CreateMoneyTransferRequest(accountId, request.toAccountId, request.amount))
         addLogForMoneyTransferResponse(response)
         context.respond(HttpStatusCode.OK, response)
     }

@@ -4,11 +4,9 @@ import com.yerko.application.account.command.UnableToCreateAccountException
 import com.yerko.application.account.query.AccountNotFoundException
 import com.yerko.application.rest.HealthCheckResource
 import com.yerko.application.rest.account.AccountResource
-import com.yerko.application.rest.moneytransfer.MoneyTransferResource
 import com.yerko.domain.moneytransfer.validator.exception.MoneyTransferValidationException
 import com.yerko.infrastructure.configuration.routers.accountResourceRoutes
 import com.yerko.infrastructure.configuration.routers.healthCheckRoutes
-import com.yerko.infrastructure.configuration.routers.moneyTansferResourceRoutes
 import com.yerko.infrastructure.persistance.PersistanceException
 import io.ktor.application.Application
 import io.ktor.application.call
@@ -24,7 +22,6 @@ import org.slf4j.event.Level
 fun Application.mainModule() {
     val healthCheckResource by ModulesConfiguration.kodein.instance<HealthCheckResource>()
     val accountResource by ModulesConfiguration.kodein.instance<AccountResource>()
-    val moneyTransferResource by ModulesConfiguration.kodein.instance<MoneyTransferResource>()
 
     install(CallLogging) {
         level = Level.TRACE
@@ -62,6 +59,5 @@ fun Application.mainModule() {
     routing {
         healthCheckRoutes(healthCheckResource)
         accountResourceRoutes(accountResource)
-        moneyTansferResourceRoutes(moneyTransferResource)
     }
 }

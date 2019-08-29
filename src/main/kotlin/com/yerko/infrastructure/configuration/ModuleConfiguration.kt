@@ -11,7 +11,6 @@ import com.yerko.application.moneytransfer.command.MoneyTransferServiceImpl
 import com.yerko.application.moneytransfer.entity.MoneyTransferWriteRepository
 import com.yerko.application.rest.HealthCheckResource
 import com.yerko.application.rest.account.AccountResource
-import com.yerko.application.rest.moneytransfer.MoneyTransferResource
 import com.yerko.domain.exchangerate.MoneyConverter
 import com.yerko.domain.exchangerate.MoneyConverterImpl
 import com.yerko.domain.exchangerate.query.ExchangeRateQuery
