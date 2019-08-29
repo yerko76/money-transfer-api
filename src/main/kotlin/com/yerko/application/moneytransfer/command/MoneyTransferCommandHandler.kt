@@ -22,7 +22,7 @@ class MoneyTransferCommandHandler(private val accountQueryHandler: AccountQueryH
         return MoneyTransferResponse(transactionId,
             transferResponse.originAccount.accountId,
             transferResponse.destinationAccount.accountId,
-            transferResponse.destinationAccount.balance
+            transferResponse.transferAmount
         )
     }
 

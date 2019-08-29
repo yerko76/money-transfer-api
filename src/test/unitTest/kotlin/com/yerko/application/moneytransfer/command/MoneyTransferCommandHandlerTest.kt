@@ -50,7 +50,8 @@ class MoneyTransferCommandHandlerTest {
         assertThat(transferResult.transactionId).isNotNull()
         assertThat(transferResult.fromAccountId).isNotNull()
         assertThat(transferResult.toAccountId).isNotNull()
-        assertThat(transferResult.transferredAmount).isNotNull
+        assertThat(transferResult.transferredAmount.amount).isEqualTo(BigDecimal.TEN)
+        assertThat(transferResult.transferredAmount.currency).isEqualTo("USD")
     }
 
     private fun convertToAccount(accountDto: AccountDto) : Account {

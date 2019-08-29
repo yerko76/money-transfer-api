@@ -24,7 +24,7 @@ class MoneyTransferServiceImpl(private val updateAccountCommandHandler: UpdateAc
                     null,
                     originAccountId,
                     destinationAccountId,
-                    moneyTransferDetail.originAccount.balance
+                    moneyTransferDetail.transferAmount
                 )
             )!!
     }
