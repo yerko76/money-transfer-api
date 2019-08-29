@@ -27,9 +27,13 @@ fun Application.mainModule() {
     val moneyTransferResource by ModulesConfiguration.kodein.instance<MoneyTransferResource>()
 
     install(CallLogging) {
-        level = Level.INFO
+        level = Level.TRACE
         callIdMdc("X-Request-ID")
     }
+    install(CallId) {
+        generate(10)
+    }
+
     install(DefaultHeaders)
     install(ContentNegotiation) {
         jackson {
