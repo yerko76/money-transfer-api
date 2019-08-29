@@ -1,0 +1,52 @@
+[[actions]]
+=== Account Resource
+
+[options="header,footer"]
+|===
+|URL|HTTP METHOD|METHOD DESCRIPTION
+|/api/v1/accounts/{account_id}
+|GET
+|Fetch account information by account_id
+
+|/api/v1/accounts/
+|POST
+|Creates an account
+
+|===
+
+Sample JSON request Get Account Information
+
+----
+GET /api/v1/accounts/{ACCOUNT_ID}
+----
+
+[source,json]
+----
+{
+  "accountInformation": {
+    "accountId": "156f6516-33e3-41b6-9335-abcff54d7000",
+    "balance": {
+      "amount": 1000.000000,
+      "currency": "USD"
+    },
+    "customerId": "156f6516-33e3-41b6-9335-bbbff54d9094",
+    "active": true
+  }
+}
+----
+
+Sample JSON request to create a new Account
+----
+POST /api/v1/accounts
+----
+
+[source,json]
+----
+{
+  "customerId": "156f6516-33e3-41b6-9335-bbbff54d9098",
+  "balance": {
+    "currency":"USD",
+    "amount":7000
+  }
+}
+----

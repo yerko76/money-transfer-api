@@ -1,0 +1,39 @@
+[[actions]]
+=== Money Transfer Resource
+
+[options="header,footer"]
+|===
+|URL|HTTP METHOD|METHOD DESCRIPTION
+|/api/v1/money/transfer
+|POST
+|transfer amount between 2 accounts
+
+|===
+
+Sample JSON request to transfer amount between 2 accounts
+----
+POST /api/v1/money/transfer
+----
+
+[source,json]
+----
+{
+  "originId": "156f6516-33e3-41b6-9335-abcff54d7000",
+  "destinationId": "156f6516-33e3-41b6-9335-abcff54d7001",
+  "amount": 100
+}
+----
+
+Sample JSON response
+
+----
+{
+  "transactionId": 1,
+  "fromAccountId": "156f6516-33e3-41b6-9335-abcff54d7000",
+  "toAccountId": "156f6516-33e3-41b6-9335-abcff54d7001",
+  "transferredAmount": {
+    "amount": 100,
+    "currency": "USD"
+  }
+}
+----

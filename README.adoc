@@ -1,7 +1,14 @@
 = Money Transfer API
 ifdef::env-github[:outfilesuffix: .adoc]
 
-This repository hosts a money transfer api between 2 accounts.
+This repository hosts a money transfer api.
+
+=  Money Transfer Api documentation
+
+include::doc/account.adoc[]
+include::doc/money-transfer.adoc[]
+
+
 
 == TechStack
 . Kotlin 1.3.41 (https://kotlinlang.org/docs/reference/)
@@ -23,3 +30,7 @@ Ensure that GNU Make is installed.
 . Execute flyway migrations
 
  $ make db-migrate
+
+. Stop All Services
+
+ $ make stop-all

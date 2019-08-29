@@ -13,20 +13,23 @@ import com.yerko.infrastructure.persistance.PersistanceException
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
-import io.ktor.features.ContentNegotiation
-import io.ktor.features.DefaultHeaders
-import io.ktor.features.StatusPages
+import io.ktor.features.*
 import io.ktor.http.HttpStatusCode
 import io.ktor.jackson.jackson
 import io.ktor.response.respond
 import io.ktor.routing.routing
 import org.kodein.di.generic.instance
+import org.slf4j.event.Level
 
 fun Application.mainModule() {
     val healthCheckResource by ModulesConfiguration.kodein.instance<HealthCheckResource>()
     val accountResource by ModulesConfiguration.kodein.instance<AccountResource>()
     val moneyTransferResource by ModulesConfiguration.kodein.instance<MoneyTransferResource>()
 
+    install(CallLogging) {
+        level = Level.INFO
+        callIdMdc("X-Request-ID")
+    }
     install(DefaultHeaders)
     install(ContentNegotiation) {
         jackson {
