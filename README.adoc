@@ -3,7 +3,7 @@ ifdef::env-github[:outfilesuffix: .adoc]
 
 This repository hosts a money transfer api.
 
-=  Money Transfer Api documentation
+==  Money Transfer Api documentation
 
 include::doc/account.adoc[]
 
