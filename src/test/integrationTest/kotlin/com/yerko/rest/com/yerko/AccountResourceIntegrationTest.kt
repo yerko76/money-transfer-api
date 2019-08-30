@@ -118,7 +118,7 @@ class AccountResourceIntegrationTest {
         assertThat(response.fromAccountId).isEqualTo(fromAccount.accountId)
         assertThat(response.toAccountId).isEqualTo(toAccount.accountId)
         assertThat(response.transferredAmount.amount).isEqualTo(transferAmount)
-        assertThat(response.transferredAmount.currency).isEqualTo("CLP")
+        assertThat(response.transferredAmount.currency).isEqualTo("USD")
     }
 
     private suspend fun getAccountInformation(): AccountInformationResponse {

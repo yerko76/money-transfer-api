@@ -57,7 +57,8 @@ class AccountResource(private val accountCommand: CreateAccountCommand,
 
     private fun addLogForMoneyTransferResponse(response: MoneyTransferResponse) {
         log.info(
-            "Transfered {} from account {} to account {}",
+            "Transfered {} {} from account {} to account {}",
+            response.transferredAmount.currency,
             response.transferredAmount.amount,
             response.fromAccountId,
             response.toAccountId

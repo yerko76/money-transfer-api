@@ -31,7 +31,7 @@ class TransferMoneyCommandImplTest {
 
         val transferDetail = transferCommandImpl.transferMoney(destinationAccount, transferAmount, "USD")
 
-        assertThat(transferDetail.balance.amount).isEqualTo(BigDecimal.valueOf(150L))
+        assertThat(transferDetail.amount).isEqualTo(BigDecimal.valueOf(150L))
     }
 
     @Test
@@ -46,7 +46,7 @@ class TransferMoneyCommandImplTest {
 
         val transferDetail = transferCommandImpl.transferMoney(destinationAccount, transferAmount, "CLP")
 
-        assertThat(transferDetail.balance.amount).isEqualTo(BigDecimal.valueOf(45162L))
+        assertThat(transferDetail.amount).isEqualTo(BigDecimal.valueOf(45162L))
     }
 
 }

@@ -26,7 +26,7 @@ class WithDrawCommandImplTest {
 
         val account = withDrawCommand.withDrawMoney(originAccount, amount)
 
-        assertThat(account.balance.amount).isEqualTo(BigDecimal.valueOf(50L))
+        assertThat(account.amount).isEqualTo(BigDecimal.valueOf(50L))
     }
 
 }

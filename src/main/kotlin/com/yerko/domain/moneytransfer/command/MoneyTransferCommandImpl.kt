@@ -22,9 +22,12 @@ class MoneyTransferCommandImpl(private val moneyTransferValidator: MoneyTransfer
     private fun executeMoneyTransfer(originAccount: Account,
                                      transferAmount: BigDecimal,
                                      destinationAccount: Account): MoneyTransferDetail {
-        val origin = withDrawMoneyCommand.withDrawMoney(originAccount, transferAmount)
-        val destination = transferMoneyCommand.transferMoney(destinationAccount, transferAmount, originAccount.balance.currency)
-        return MoneyTransferDetail(origin, destination, Money(transferAmount, destinationAccount.balance.currency))
+        val withDraw = withDrawMoneyCommand.withDrawMoney(originAccount, transferAmount)
+        val transferredAmount = transferMoneyCommand.transferMoney(destinationAccount, transferAmount, originAccount.balance.currency)
+        return MoneyTransferDetail(
+                Account(originAccount.accountId, withDraw),
+                Account(destinationAccount.accountId, transferredAmount),
+                Money(transferAmount, originAccount.balance.currency))
     }
 
 }

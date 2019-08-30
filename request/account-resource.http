@@ -15,16 +15,16 @@ Content-Type: application/json
 %}
 
 ###
-GET http://{{host}}/api/v1/accounts/3aa2ef02-5acf-4026-a53a-fab8be40d65e
+GET http://{{host}}/api/v1/accounts/5fded831-7cc1-4f33-9350-17e9a40d16a9
 Content-Type: application/json
 
 ###
 
-POST http://{{host}}/api/v1/accounts/3aa2ef02-5acf-4026-a53a-fab8be40d65e/transfer
+POST http://{{host}}/api/v1/accounts/5fded831-7cc1-4f33-9350-17e9a40d16a9/transfer
 Content-Type: application/json
 
 {
-  "toAccountId": "7bdc30d0-9022-4a66-9236-278538ab1450",
+  "toAccountId": "24129fe1-8151-44c4-b058-282f2f121a00",
   "amount": 100
 }
 
