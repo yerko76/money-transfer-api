@@ -37,11 +37,11 @@ object ModulesConfiguration {
         bind<MoneyTransferService>() with singleton { MoneyTransferServiceImpl(instance(), instance()) }
         bind<MoneyTransferCommandHandler>() with singleton { MoneyTransferCommandHandler(instance(), instance(), instance()) }
         bind<MoneyTransferServiceImpl>() with singleton { MoneyTransferServiceImpl(instance(), instance()) }
+        bind<ExchangeRateQuery>() with singleton { ExchangeRateQueryImpl() }
     }
 
     private val domainModule = Kodein.Module("DomainModule") {
         bind<WithDrawMoneyCommand>() with singleton { WithdrawMoneyCommandImpl() }
-        bind<ExchangeRateQuery>() with singleton { ExchangeRateQueryImpl() }
         bind<MoneyConverter>() with singleton { MoneyConverterImpl(instance()) }
         bind<TransferMoneyCommand>() with singleton { TransferMoneyCommandImpl(instance()) }
         bind<MoneyTransferCommand>() with singleton { MoneyTransferCommandImpl(instance(), instance(), instance()) }

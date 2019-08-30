@@ -106,9 +106,8 @@ class AccountResourceIntegrationTest {
         val existingCustomerFromDb1 = "156f6516-33e3-41b6-9335-bbbff54d9094"
         val existingCustomerFromDb2 = "156f6516-33e3-41b6-9335-bbbff54d9095"
         val fromAccount = createAccount(existingCustomerFromDb1, Money(BigDecimal(100L), "USD"))
-        val toAccount = createAccount(existingCustomerFromDb2, Money(BigDecimal(100L), "CLP"))
+        val toAccount = createAccount(existingCustomerFromDb2, Money(BigDecimal(1000L), "CLP"))
         val transferAmount = BigDecimal.valueOf(50L)
-        val expectedTransferredAmount = BigDecimal.valueOf(36045L)
         val transferRequest  = CreateMoneyTransferRequest(toAccount.accountId, transferAmount)
         requestBuilder.url("${appUrl}/api/v1/accounts/${fromAccount.accountId}/transfer")
         requestBuilder.body = transferRequest
@@ -118,7 +117,7 @@ class AccountResourceIntegrationTest {
         assertThat(response.transactionId).isNotNull()
         assertThat(response.fromAccountId).isEqualTo(fromAccount.accountId)
         assertThat(response.toAccountId).isEqualTo(toAccount.accountId)
-        assertThat(response.transferredAmount.amount).isEqualTo(expectedTransferredAmount)
+        assertThat(response.transferredAmount.amount).isEqualTo(transferAmount)
         assertThat(response.transferredAmount.currency).isEqualTo("CLP")
     }
 

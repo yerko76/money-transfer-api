@@ -13,5 +13,22 @@
        {
           "baseCurrency": "USD",
           "date": "2019-08-28",
-           "rate": { "currency":"USD","rate": 0.90823 }
+           "rate": { "currency":"CLP","rate": 721.60 }
+        }
+-  request:
+     method: GET
+     url: /exchangeratesapi/v1/rates
+     query:
+       from: "^CLP$"
+       to: "^USD$"
+
+   response:
+     status: 200
+     headers:
+       content-type: application/json
+     body: >
+       {
+          "baseCurrency": "CLP",
+          "date": "2019-08-28",
+           "rate": { "currency":"USD","rate": 0.0014 }
         }

@@ -1,11 +1,11 @@
-### Create new Account
+### Create new Account  156f6516-33e3-41b6-9335-bbbff54d9096
 POST http://{{host}}/api/v1/accounts
 Content-Type: application/json
 
 {
-  "customerId": "156f6516-33e3-41b6-9335-bbbff54d1000",
+  "customerId": "156f6516-33e3-41b6-9335-bbbff54d9096",
   "balance": {
-    "currency":"USD",
+    "currency":"CLP",
     "amount":7000
   }
 }
@@ -15,16 +15,16 @@ Content-Type: application/json
 %}
 
 ###
-GET http://{{host}}/api/v1/accounts/{{ACCOUNT_ID}}
+GET http://{{host}}/api/v1/accounts/3aa2ef02-5acf-4026-a53a-fab8be40d65e
 Content-Type: application/json
 
 ###
 
-POST http://{{host}}/api/v1/accounts/156f6516-33e3-41b6-9335-abcff54d7000/transfer
+POST http://{{host}}/api/v1/accounts/3aa2ef02-5acf-4026-a53a-fab8be40d65e/transfer
 Content-Type: application/json
 
 {
-  "toAccountId": "156f6516-33e3-41b6-9335-abcff54d7001",
+  "toAccountId": "7bdc30d0-9022-4a66-9236-278538ab1450",
   "amount": 100
 }
 

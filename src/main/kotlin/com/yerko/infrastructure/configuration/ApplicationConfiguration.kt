@@ -34,6 +34,7 @@ fun Application.mainModule() {
         generate(10)
     }
 
+
     install(DefaultHeaders)
     install(ContentNegotiation) {
         jackson {

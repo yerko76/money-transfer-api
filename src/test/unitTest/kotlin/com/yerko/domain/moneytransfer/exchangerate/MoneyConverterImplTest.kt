@@ -10,7 +10,6 @@ import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
-import org.joda.time.DateTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
@@ -34,8 +33,7 @@ class MoneyConverterImplTest {
         val expectedResult = Money(BigDecimal.valueOf(1), usdCurrency)
         val exchangeRate = ExchangeRate(
             usdCurrency,
-            Rate(clpCurrency, BigDecimal.valueOf(0.0014)),
-            DateTime.now()
+            Rate(clpCurrency, BigDecimal.valueOf(0.0014))
         )
         every { exchangeRateQuery.findByBaseAndDestinationCurrency(usdCurrency, clpCurrency) } returns exchangeRate
 

@@ -1,5 +1,6 @@
 build:
 	make assemble && docker-compose build
+
 run-docker: ## Builds, (re)creates, starts, and attaches to container for APP
 	make build && docker-compose up --force-recreate -d $(APP_NAME)
 
