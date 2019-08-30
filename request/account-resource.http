@@ -10,12 +10,8 @@ Content-Type: application/json
   }
 }
 
-> {%
-    client.global.set("ACCOUNT_ID", response.body.json.accountId);
-%}
-
 ###
-GET http://{{host}}/api/v1/accounts/5fded831-7cc1-4f33-9350-17e9a40d16a9
+GET http://{{host}}/api/v1/accounts/93efaca9-24a1-49cb-b70e-d70aaa09cd1a
 Content-Type: application/json
 
 ###

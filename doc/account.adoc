@@ -34,8 +34,7 @@ Sample JSON response Account Information
       "amount": 1000.000000,
       "currency": "USD"
     },
-    "customerId": "156f6516-33e3-41b6-9335-bbbff54d9094",
-    "active": true
+    "customerId": "156f6516-33e3-41b6-9335-bbbff54d9094"
   }
 }
 ----

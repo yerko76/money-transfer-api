@@ -71,7 +71,6 @@ class AccountResourceIntegrationTest {
         val response = runBlocking { getAccountInformation() }
 
         assertThat(response.accountInformation.accountId).isEqualTo(createdAccount.accountId)
-        assertThat(response.accountInformation.active).isTrue()
         assertThat(response.accountInformation.customerId).isNotNull()
         assertThat(response.accountInformation.moneyDto.amount).isGreaterThan(BigDecimal.ZERO)
         assertThat(response.accountInformation.moneyDto.currency).isNotNull()

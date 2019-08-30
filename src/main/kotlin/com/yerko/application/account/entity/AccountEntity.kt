@@ -1,6 +1,7 @@
 package com.yerko.application.account.entity
 
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table
@@ -19,7 +20,7 @@ data class AccountDto @JsonCreator constructor(
     @JsonProperty("accountId") var accountId:UUID,
     @JsonProperty("balance") var moneyDto: MoneyDto,
     @JsonProperty("customerId") val customerId: UUID,
-    @JsonProperty("active") val active: Boolean?
+    @JsonIgnore val active: Boolean?
 )
 
 data class MoneyDto @JsonCreator constructor(

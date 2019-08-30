@@ -1,0 +1,187 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Money Transfer API
+  license:
+    name: MIT
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/yerko76/transfer-money-api/1.0.0
+paths:
+  /api/v1/health:
+    get:
+      summary: Returns OK when application is UP
+      tags:
+        - health
+      responses:
+        '200':
+          description: Returns OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheck'
+
+  /api/v1/accounts:
+    post:
+      summary: Create an Account
+      operationId: createAccount
+      tags:
+        - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+            example:
+              {
+                "customerId": "156f6516-33e3-41b6-9335-bbbff54d9098",
+                "balance": {
+                  "currency":"USD",
+                  "amount":7000
+                }
+              }
+      responses:
+        '201':
+          description: "returns account id"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountCreated"
+              example:
+                example:
+                  {
+                    "accountId": "93efaca9-24a1-49cb-b70e-d70aaa09cd1a"
+                  }
+
+  /api/v1/accounts/{accountId}/transfer:
+    post:
+      summary: Transfer money between 2 accounts
+      operationId: moneyTransfer
+      tags:
+        - money-transfer
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The id of the account that is going to transfer money
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoneyTransfer'
+            example:
+              {
+                "toAccountId": "156f6516-33e3-41b6-9335-abcff54d7001",
+                "amount": 100
+              }
+      responses:
+        '200':
+          description: "returns money transaction result"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MoneyTransferResponse"
+              example:
+                {
+                  "transactionId": 1,
+                  "fromAccountId": "156f6516-33e3-41b6-9335-abcff54d7000",
+                  "toAccountId": "156f6516-33e3-41b6-9335-abcff54d7001",
+                  "transferredAmount": {
+                    "amount": 100,
+                    "currency": "USD"
+                  }
+                }
+
+  /api/v1/accounts/{accountId}:
+    get:
+      summary: Get Account Information by existing account-id
+      tags:
+        - account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The id of the account to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns Account information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountInformation"
+              example:
+                {
+                  "accountInformation": {
+                    "accountId": "156f6516-33e3-41b6-9335-abcff54d7000",
+                    "balance": {
+                      "amount": 1000.000000,
+                      "currency": "USD"
+                    },
+                    "customerId": "156f6516-33e3-41b6-9335-bbbff54d9094"
+                  }
+                }
+
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        customerId:
+          type: string
+        balance:
+          $ref: '#/components/schemas/Balance'
+
+    Balance:
+      type: object
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+
+    AccountInformation:
+      type: object
+      properties:
+        accountId:
+          type: string
+        customerId:
+          type: string
+        balance:
+          $ref: '#/components/schemas/Balance'
+
+    MoneyTransfer:
+      type: object
+      properties:
+        toAccountId:
+          type: string
+        amount:
+          type: number
+
+    MoneyTransferResponse:
+      type: object
+      properties:
+        transactionId:
+          type: integer
+        fromAccountId:
+          type: string
+        toAccountId:
+          type: string
+        transferredAmount:
+          $ref: '#/components/schemas/Balance'
+
+    AccountCreated:
+      type: object
+      properties:
+        accountId:
+          type: string
+
+    HealthCheck:
+      type: object
+      properties:
+        status:
+          type: string
