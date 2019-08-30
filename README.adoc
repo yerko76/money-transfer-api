@@ -40,6 +40,10 @@ Ensure that GNU Make is installed.
 
 . Integration Test:
 
+.. Generate Artifact
+
+$ make build
+
 .. Start all-services
 
  $ make start-all

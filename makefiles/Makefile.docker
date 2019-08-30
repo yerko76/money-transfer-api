@@ -23,7 +23,7 @@ stop-stubby-docker: ## Stops running  EXCHANGE_STUBS container without removing 
 	docker-compose stop $(EXCHANGE_STUBS)
 
 start-all: ## Starts all services
-	make build && docker-compose up
+	docker-compose up
 
 stop-all: ## Stops all services
 	docker-compose down
