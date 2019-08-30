@@ -42,7 +42,7 @@ Ensure that GNU Make is installed.
 
 .. Generate Artifact
 
-$ make build
+    $ make build
 
 .. Start all-services
 
