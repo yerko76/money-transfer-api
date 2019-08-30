@@ -3,6 +3,8 @@ package com.yerko.rest.com.yerko
 import com.yerko.application.rest.account.AccountCreatedResponse
 import com.yerko.application.rest.account.AccountInformationResponse
 import com.yerko.application.rest.account.CreateAccountRequest
+import com.yerko.application.rest.moneytransfer.CreateMoneyTransferRequest
+import com.yerko.application.rest.moneytransfer.MoneyTransferResponse
 import com.yerko.domain.moneytransfer.Money
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JacksonSerializer
@@ -53,6 +55,7 @@ class AccountResourceIntegrationTest {
     fun `should return AccountInformation when I pass accountId`() {
         val accountId = "156f6516-33e3-41b6-9335-abcff54d7001"
         requestBuilder.url("${appUrl}/api/v1/accounts/${accountId}")
+
         val response = runBlocking { getAccountInformation() }
 
         assertThat(response.accountInformation.accountId).isEqualTo(UUID.fromString(accountId))
@@ -62,19 +65,23 @@ class AccountResourceIntegrationTest {
         assertThat(response.accountInformation.moneyDto.currency).isNotNull()
     }
 
-//    @Test
-//    fun `should transfer money`() {
-//        val fromAccount = "156f6516-33e3-41b6-9335-abcff54d7003"
-//        val toAccount = "156f6516-33e3-41b6-9335-abcff54d7003"
-//        requestBuilder.url("${appUrl}/api/v1/accounts/account/${fromAccount}/transfer")
-//        val response = runBlocking { getAccountInformation() }
-//
-//        assertThat(response.accountInformation.accountId).isEqualTo(UUID.fromString(accountId))
-//        assertThat(response.accountInformation.active).isTrue()
-//        assertThat(response.accountInformation.customerId).isNotNull()
-//        assertThat(response.accountInformation.moneyDto.amount).isGreaterThan(BigDecimal.ZERO)
-//        assertThat(response.accountInformation.moneyDto.currency).isNotNull()
-//    }
+    @Test
+    fun `should transfer money`() {
+        val fromAccount = "156f6516-33e3-41b6-9335-abcff54d7003"
+        val toAccount = UUID.fromString("156f6516-33e3-41b6-9335-abcff54d7000")
+        val transferAmount = BigDecimal.TEN
+        val transferRequest  = CreateMoneyTransferRequest(toAccount, transferAmount)
+        requestBuilder.url("${appUrl}/api/v1/accounts/${fromAccount}/transfer")
+        requestBuilder.body = transferRequest
+
+        val response = runBlocking { transferMoney() }
+
+        assertThat(response.transactionId).isNotNull()
+        assertThat(response.fromAccountId).isNotNull()
+        assertThat(response.toAccountId).isNotNull()
+        assertThat(response.transferredAmount.amount).isGreaterThan(BigDecimal.ZERO)
+        assertThat(response.transferredAmount.currency).isNotNull()
+    }
 
     private suspend fun getAccountInformation(): AccountInformationResponse {
         val response = httpClient.get<AccountInformationResponse>(requestBuilder)
@@ -84,6 +91,12 @@ class AccountResourceIntegrationTest {
 
     private suspend fun createAccount(): AccountCreatedResponse {
         val response = httpClient.post<AccountCreatedResponse>(requestBuilder)
+        httpClient.close()
+        return response
+    }
+
+    private suspend fun transferMoney(): MoneyTransferResponse {
+        val response = httpClient.post<MoneyTransferResponse>(requestBuilder)
         httpClient.close()
         return response
     }

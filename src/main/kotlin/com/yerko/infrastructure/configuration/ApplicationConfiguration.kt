@@ -17,9 +17,12 @@ import io.ktor.jackson.jackson
 import io.ktor.response.respond
 import io.ktor.routing.routing
 import org.kodein.di.generic.instance
+import org.slf4j.LoggerFactory
 import org.slf4j.event.Level
 
 fun Application.mainModule() {
+    val log = LoggerFactory.getLogger(Application::class.java)
+
     val healthCheckResource by ModulesConfiguration.kodein.instance<HealthCheckResource>()
     val accountResource by ModulesConfiguration.kodein.instance<AccountResource>()
 
@@ -38,18 +41,23 @@ fun Application.mainModule() {
     }
     install(StatusPages) {
         exception<UnableToCreateAccountException> { cause ->
+            log.error("Unable to create account due to {}", cause.message, cause)
             call.respond(HttpStatusCode.BadRequest, cause.message)
         }
         exception<MoneyTransferValidationException> { cause ->
+            log.error("Unable to transfer money due to {}", cause.message, cause)
             call.respond(HttpStatusCode.BadRequest,cause.message)
         }
         exception<AccountNotFoundException> { cause ->
+            log.error("Account does not exist, error was {}", cause.message, cause)
             call.respond(HttpStatusCode.BadRequest, cause.message)
         }
         exception<PersistanceException> { cause ->
+            log.error("Error ocurred trying to save entity, error was {}", cause.message, cause)
             call.respond(HttpStatusCode.ServiceUnavailable, cause.message)
         }
         exception<Exception> { cause ->
+            log.error("Unhandled error, due to  {}", cause.message, cause)
             cause.message?.let { call.respond(HttpStatusCode.InternalServerError, it) }
         }
     }
