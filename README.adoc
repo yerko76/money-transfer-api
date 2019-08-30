@@ -38,6 +38,12 @@ Ensure that GNU Make is installed.
 
   $ make export-containers-host
 
-. Integration Test
+. Integration Test:
+
+.. Start all-services
+
+ $ make start-all
+
+.. Run Integration test
 
  $ make integration-test
