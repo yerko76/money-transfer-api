@@ -35,7 +35,7 @@ class MoneyConverterImplTest {
             usdCurrency,
             Rate(clpCurrency, BigDecimal.valueOf(0.0014))
         )
-        every { exchangeRateQuery.findByBaseAndDestinationCurrency(usdCurrency, clpCurrency) } returns exchangeRate
+        every { exchangeRateQuery.findByBaseAndDestinationCurrency(clpCurrency, usdCurrency) } returns exchangeRate
 
         val result = moneyConverterCommandImpl.convert(clp, usdCurrency)
 
@@ -46,14 +46,14 @@ class MoneyConverterImplTest {
     fun `Should throw Exception when currency is not found`() {
         val clp = Money(BigDecimal.valueOf(700), "CLP")
         val notFoundCurrency = "VAL"
-        every { exchangeRateQuery.findByBaseAndDestinationCurrency(notFoundCurrency, clpCurrency) } returns null
+        every { exchangeRateQuery.findByBaseAndDestinationCurrency(clpCurrency, notFoundCurrency) } returns null
 
         val exception = Assertions.catchThrowable {
             moneyConverterCommandImpl.convert(clp, notFoundCurrency)
         }
 
-        Assertions.assertThat(exception)
+        assertThat(exception)
             .isInstanceOf(ExchangeRateNotFoundException::class.java)
-            .hasMessageContaining("Exchange rate information not found for currencies VAL and CLP")
+            .hasMessageContaining("Exchange rate information not found for currencies CLP and VAL")
     }
 }
