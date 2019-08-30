@@ -1,15 +1,21 @@
+### Create new Account
 POST http://{{host}}/api/v1/accounts
 Content-Type: application/json
 
 {
-  "customerId": "156f6516-33e3-41b6-9335-bbbff54d9098",
+  "customerId": "156f6516-33e3-41b6-9335-bbbff54d1000",
   "balance": {
     "currency":"USD",
     "amount":7000
   }
 }
+
+> {%
+    client.global.set("ACCOUNT_ID", response.body.json.accountId);
+%}
+
 ###
-GET http://{{host}}/api/v1/accounts/156f6516-33e3-41b6-9335-abcff54d7000
+GET http://{{host}}/api/v1/accounts/{{ACCOUNT_ID}}
 Content-Type: application/json
 
 ###

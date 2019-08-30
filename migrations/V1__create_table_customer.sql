@@ -11,3 +11,7 @@ insert into customers (customer_id,first_name, last_name, email, active) values 
 insert into customers (customer_id,first_name, last_name, email, active) values ('156f6516-33e3-41b6-9335-bbbff54d9096','some', 'customer', 'somecustomer@test.com', true);
 insert into customers (customer_id,first_name, last_name, email, active) values('156f6516-33e3-41b6-9335-bbbff54d9097','testing', 'user', 'test@test.com', false);
 insert into customers (customer_id,first_name, last_name, email, active) values('156f6516-33e3-41b6-9335-bbbff54d9098','good', 'user', 'gooduser@test.com', true);
+
+insert into customers (customer_id,first_name, last_name, email, active) values ('156f6516-33e3-41b6-9335-bbbff54d1000','Random 1', 'customer', 'somecustome1r@test.com', true);
+insert into customers (customer_id,first_name, last_name, email, active) values ('156f6516-33e3-41b6-9335-bbbff54d1001','Random 2', 'customer', 'somecustomer2@test.com', true);
+insert into customers (customer_id,first_name, last_name, email, active) values ('156f6516-33e3-41b6-9335-bbbff54d1002','Random 3', 'customer', 'somecustomer3@test.com', true);
