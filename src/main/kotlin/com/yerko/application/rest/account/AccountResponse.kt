@@ -4,4 +4,4 @@ import com.yerko.application.account.entity.AccountDto
 import java.util.*
 
 data class AccountInformationResponse(val accountInformation: AccountDto)
-data class AccountCreatedResponse(val accountId: UUID)
+

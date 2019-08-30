@@ -23,7 +23,7 @@ class AccountResource(private val accountCommand: CreateAccountCommand,
         val createAccount = CreateAccount(createAccountRequest.balance, createAccountRequest.customerId)
         log.info("Creating account for customer {}", createAccount.customerId)
         val accountResponse = accountCommand.create(createAccount)
-        log.info("Account with id {} created for customer {}", accountResponse,createAccount.customerId)
+        log.info("Account with id {} created for customer {}", accountResponse.accountId, createAccount.customerId)
         context.respond(HttpStatusCode.Created, accountResponse)
     }
 

@@ -7,5 +7,5 @@ flyway {
     password = System.getenv('DB_PASSWORD')
     url = "jdbc:postgresql://${host}:${port}/${db}"
     baselineOnMigrate=true
-    locations = ["filesystem:./migrations"]
+    locations = ["filesystem:./db/migrations"]
 }

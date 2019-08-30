@@ -20,17 +20,9 @@ include::doc/account.adoc[]
 
 Ensure that GNU Make is installed.
 
-. In order to run integration test and flyway migrations is necessary to export db-container host and stubby container
-
-  $ make export-containers-host
-
 . Start All Services
 
  $ make start-all
-
-. Execute flyway migrations
-
- $ make db-migrate
 
 . Stop All Services
 
@@ -41,6 +33,10 @@ Ensure that GNU Make is installed.
 . Unit Test
 
  $ make unit-test
+
+. In order to run integration test is necessary to export db-container host and stubby container host
+
+  $ make export-containers-host
 
 . Integration Test
 

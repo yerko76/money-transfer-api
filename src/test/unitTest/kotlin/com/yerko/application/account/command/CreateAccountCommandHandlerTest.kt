@@ -41,7 +41,7 @@ class CreateAccountCommandHandlerTest {
        runBlocking {
            val response = createAccountCommand.create(createAccount)
 
-           assertThat(response).isEqualTo(expectedAccountId)
+           assertThat(response.accountId).isEqualTo(expectedAccountId)
        }
 
     }

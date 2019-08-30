@@ -4,6 +4,7 @@ import com.yerko.application.account.entity.AccountDto
 import com.yerko.application.account.entity.AccountReadRepository
 import com.yerko.application.account.entity.AccountWriteRepository
 import com.yerko.application.account.entity.MoneyDto
+import com.yerko.domain.account.command.AccountCreatedResponse
 import com.yerko.domain.account.command.CreateAccount
 import com.yerko.domain.account.command.CreateAccountCommand
 import org.slf4j.LoggerFactory
@@ -13,7 +14,7 @@ class CreateAccountCommandHandler(private val accountWriteRepository: AccountWri
                                   private val accountReadRepository: AccountReadRepository) : CreateAccountCommand {
     private val log = LoggerFactory.getLogger(CreateAccountCommandHandler::class.java)
 
-    override suspend fun create(createAccount: CreateAccount): UUID {
+    override suspend fun create(createAccount: CreateAccount): AccountCreatedResponse {
         val account = AccountDto(
             UUID.randomUUID(),
             MoneyDto(createAccount.balance.amount, createAccount.balance.currency),
@@ -26,7 +27,7 @@ class CreateAccountCommandHandler(private val accountWriteRepository: AccountWri
             throw UnableToCreateAccountException("Unable to create account for customer: ${account.customerId} due to account already exists")
         }
 
-        return accountWriteRepository.save(account)
+        return AccountCreatedResponse(accountWriteRepository.save(account))
     }
 }
 

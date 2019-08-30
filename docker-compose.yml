@@ -36,6 +36,9 @@ services:
       POSTGRES_DB: payment
     networks:
       - bridge
+    volumes:
+      - ./db/init_db.sql:/docker-entrypoint-initdb.d/1-tables.sql
+      - ./db/add_customers.sql:/docker-entrypoint-initdb.d/2-customers.sql
 
   exchange-rate-service:
     container_name: exchange-rate-service

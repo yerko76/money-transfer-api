@@ -1,12 +1,11 @@
 package com.yerko.rest.com.yerko
 
-import com.yerko.application.rest.account.AccountCreatedResponse
 import com.yerko.application.rest.account.AccountInformationResponse
 import com.yerko.application.rest.account.CreateAccountRequest
 import com.yerko.application.rest.moneytransfer.CreateMoneyTransferRequest
 import com.yerko.application.rest.moneytransfer.MoneyTransferResponse
+import com.yerko.domain.account.command.AccountCreatedResponse
 import com.yerko.domain.moneytransfer.Money
-import com.yerko.infrastructure.configuration.DatabaseFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JacksonSerializer
 import io.ktor.client.features.json.JsonFeature
@@ -18,10 +17,13 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.util.*
+
+
 
 class AccountResourceIntegrationTest {
     private lateinit var requestBuilder: HttpRequestBuilder
@@ -39,43 +41,32 @@ class AccountResourceIntegrationTest {
                 serializer = JacksonSerializer()
             }
         }
-
-        DatabaseFactory.init()
+      val dbUtil = DbUtil()
+      runBlocking { dbUtil.clearDb() }
     }
 
-    @Test
-    fun `random test`() {
-        val existingCustomerFromDb = "156f6516-33e3-41b6-9335-bbbff54d9094"
-
-        assertThat(existingCustomerFromDb).isNotNull()
+    @AfterEach
+    internal fun tearDown(){
+        httpClient.close()
     }
-
 
     @Test
     fun `should create an accounts`() {
         val existingCustomerFromDb = "156f6516-33e3-41b6-9335-bbbff54d9094"
-        val originAccountId = createAccount(existingCustomerFromDb)
+        val response = createAccount(existingCustomerFromDb)
 
-        assertThat(originAccountId).isNotNull()
-    }
-
-    private fun createAccount(existingCustomerFromDb: String): UUID {
-        val firstAccount = CreateAccountRequest(Money(BigDecimal(100L), "USD"), UUID.fromString(existingCustomerFromDb))
-        requestBuilder.url("${appUrl}/api/v1/accounts")
-
-        val originAccountId = runBlocking { createAccount(firstAccount) }.accountId
-        return originAccountId
+        assertThat(response.accountId).isNotNull()
     }
 
     @Test
     fun `should return AccountInformation when I pass accountId`() {
         val existingCustomerFromDb = "156f6516-33e3-41b6-9335-bbbff54d9094"
-        val accountId =createAccount(existingCustomerFromDb)
-        requestBuilder.url("${appUrl}/api/v1/accounts/${accountId}")
+        val createdAccount = createAccount(existingCustomerFromDb)
+        requestBuilder.url("${appUrl}/api/v1/accounts/${createdAccount.accountId}")
 
         val response = runBlocking { getAccountInformation() }
 
-        assertThat(response.accountInformation.accountId).isEqualTo(originAccountId)
+        assertThat(response.accountInformation.accountId).isEqualTo(createdAccount.accountId)
         assertThat(response.accountInformation.active).isTrue()
         assertThat(response.accountInformation.customerId).isNotNull()
         assertThat(response.accountInformation.moneyDto.amount).isGreaterThan(BigDecimal.ZERO)
@@ -85,38 +76,42 @@ class AccountResourceIntegrationTest {
 
     @Test
     fun `should transfer money`() {
-        val fromAccount = originAccountId::toString
-        val toAccount = destinationAccountId
+        val existingCustomerFromDb1 = "156f6516-33e3-41b6-9335-bbbff54d9094"
+        val existingCustomerFromDb2 = "156f6516-33e3-41b6-9335-bbbff54d9095"
+        val fromAccount = createAccount(existingCustomerFromDb1)
+        val toAccount = createAccount(existingCustomerFromDb2)
+
         val transferAmount = BigDecimal.valueOf(50L)
-        val transferRequest  = CreateMoneyTransferRequest(toAccount, transferAmount)
-        requestBuilder.url("${appUrl}/api/v1/accounts/${fromAccount}/transfer")
+        val transferRequest  = CreateMoneyTransferRequest(toAccount.accountId, transferAmount)
+        requestBuilder.url("${appUrl}/api/v1/accounts/${fromAccount.accountId}/transfer")
         requestBuilder.body = transferRequest
 
         val response = runBlocking { transferMoney() }
 
         assertThat(response.transactionId).isNotNull()
-        assertThat(response.fromAccountId).isEqualTo(originAccountId)
-        assertThat(response.toAccountId).isEqualTo(destinationAccountId)
+        assertThat(response.fromAccountId).isEqualTo(fromAccount.accountId)
+        assertThat(response.toAccountId).isEqualTo(toAccount.accountId)
         assertThat(response.transferredAmount.amount).isEqualTo(transferAmount)
         assertThat(response.transferredAmount.currency).isEqualTo("USD")
     }
 
     private suspend fun getAccountInformation(): AccountInformationResponse {
-        val response = httpClient.get<AccountInformationResponse>(requestBuilder)
-        httpClient.close()
-        return response
+        return httpClient.get<AccountInformationResponse>(requestBuilder)
     }
 
     private suspend fun createAccount(account: CreateAccountRequest): AccountCreatedResponse {
         requestBuilder.body = account
-        val response = httpClient.post<AccountCreatedResponse>(requestBuilder)
-        httpClient.close()
-        return response
+        return httpClient.post<AccountCreatedResponse>(requestBuilder)
     }
 
     private suspend fun transferMoney(): MoneyTransferResponse {
-        val response = httpClient.post<MoneyTransferResponse>(requestBuilder)
-        httpClient.close()
-        return response
+        return httpClient.post<MoneyTransferResponse>(requestBuilder)
+    }
+
+    private fun createAccount(existingCustomerFromDb: String): AccountCreatedResponse {
+        val firstAccount = CreateAccountRequest(Money(BigDecimal(100L), "USD"), UUID.fromString(existingCustomerFromDb))
+        requestBuilder.url("${appUrl}/api/v1/accounts")
+
+        return runBlocking { createAccount(firstAccount) }
     }
 }
