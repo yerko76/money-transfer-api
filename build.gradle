@@ -11,7 +11,7 @@ buildscript {
 
 plugins {
     id "org.jetbrains.kotlin.jvm" version "${kotlin_version}"
-    id "com.gorylenko.gradle-git-properties" version "2.1.0"
+    id "com.gorylenko.gradle-git-properties" version "2.2.0"
     id "org.flywaydb.flyway" version "6.0.3"
     id "com.github.johnrengelman.shadow" version "5.1.0"
     id "application"
